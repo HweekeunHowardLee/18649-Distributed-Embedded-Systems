@@ -1,0 +1,46 @@
+; 18649 2014 Fall
+; group #4
+; Zhu Zhang (zhuzhang), Hua Liu (hual1), Howard Lee (hweekeul)
+; sd1b1.mf
+
+#INCLUDE defines.mf ;include CAN id and period definitions
+#DEFINE MESSAGE_PERIOD 100ms
+
+;preconditions
+0s  I  MESSAGE_PERIOD N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = true
+0s  I  MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 3 STOP FRONT
+0.2s  I  MESSAGE_PERIOD N HALL_CALL_[3][FRONT][DOWN]_CAN_ID EfficientBoolean = True
+0.5s  I  MESSAGE_PERIOD N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = True
+0.5s  I  MESSAGE_PERIOD N HALL_CALL_[3][FRONT][DOWN]_CAN_ID EfficientBoolean = False
+
+;make sure door is opened
+0.7s A S DoorControl[FRONT][LEFT] : STATE == STATE_DOOR_OPENED
+
+0.9s  I  MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 1 STOP FRONT
+0.9s  I  MESSAGE_PERIOD F HallLight 3 FRONT DOWN = false
+
+1.5s  I  MESSAGE_PERIOD N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = False
+
+;#arc '1B/1a'
+5.71s A S DoorControl[FRONT][LEFT] : STATE == STATE_DOOR_CLOSING
+
+;#arc '1B/2'
+;#arc '1B/3a'
+;#arc '1B/3b'
+5.72s I MESSAGE_PERIOD F HallCall 3 FRONT DOWN = true
+5.72s I MESSAGE_PERIOD F HallLight 3 FRONT DOWN = true
+;#arc '1B/4'
+5.81s A F HallLight 3 FRONT DOWN : lighted == true
+
+
+;#arc '1B/5a'
+6.9s I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
+7.0s I MESSAGE_PERIOD N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = false
+
+;#arc '1B/5b'
+;7.2s A F DoorMotor FRONT LEFT : command == STOP
+
+;postconditions
++0s A S HallButtonControl[3][FRONT][DOWN] : STATE == STATE_HALL_LIGHT_ON
++0s A F HallLight 3 FRONT DOWN : lighted == true
++0s A F DoorClosed FRONT LEFT : isClosed == true

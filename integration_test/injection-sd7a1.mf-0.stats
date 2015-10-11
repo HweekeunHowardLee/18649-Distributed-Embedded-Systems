@@ -1,0 +1,27 @@
+;18649-Fall-2014
+;Group 4
+;Zhu Zhang (zhuzhang), Hua Liu (hual1), Howard Lee(hweekeul)
+
+Simulator Parameters:
+Command line = -cf sd7a1.cf -mf sd7a1.mf -head headfile -rt 1s
+RandomSeed = 1416848340579
+CanNetworkBitTime = 0 ns
+Effective Can Bitrate = Infinity
+Run Time = 1.0s
+Real time rate = null
+Message File = sd7a1.mf
+Controller File = sd7a1.cf
+
+Assertion Results:
+@0.21s:  PASSED DoorControl[FRONT][LEFT]::checkState(STATE) ?== STATE_DOOR_OPENING PASSED
+@0.51s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@63947c6b :: command ?== OPEN PASSED
+@1.2s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@355da254 :: lighted ?== true PASSED
+@1.2s:  PASSED LanternControl[UP]::checkState(STATE) ?== STATE_LANTERN_ON PASSED
+@1.8s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@6ff3c5b5 :: command ?== STOP PASSED
+
+
+******************Summary******************
+Passed:  5
+Failed:  0
+Total :  5
+

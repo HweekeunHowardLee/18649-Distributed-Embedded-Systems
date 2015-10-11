@@ -1,0 +1,497 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta content="text/html; charset=windows-1252"
+      http-equiv="Content-Type">
+    <title>18649 CHANGE THIS TITLE</title>
+  </head>
+  <body>
+    <h1 style="text-align: center;">18649 - High Level Requirements
+      Verification<br>
+    </h1>
+    <hr style="width: 100%; height: 2px;">18649 Fall 2014<br>
+    Group 4 - Zhu Zhang (zhuzhang), Hua Liu (hual1), Howard Lee
+    (hweekeul)
+    <hr style="width: 100%; height: 2px;">
+    <h2>Verification Framework Description<br>
+    </h2>
+    <h3> 1. R-T6: The Car shall only stop at Floors for which there are
+      pending calls.</h3>
+    <meta charset="utf-8">
+    <h2><span style="color: rgb(0, 0, 0); font-family: Times; font-size:
+        medium; font-style: normal; font-variant: normal; font-weight:
+        normal; letter-spacing: normal; line-height: normal; orphans:
+        auto; text-align: left; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: auto; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; display: inline !important;
+        float: none;"></span></h2>
+    <span style="color: rgb(0, 0, 0); font-family: Times; font-size:
+      medium; font-style: normal; font-variant: normal; font-weight:
+      normal; letter-spacing: normal; line-height: normal; orphans:
+      auto; text-align: left; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px; display: inline !important; float:
+      none;"><b>State Chart:</b><br>
+      <img alt="" src="R-T6.png" height="192" width="438"><br>
+    </span><br>
+    <meta charset="utf-8">
+    <table style="text-align: left;" border="1" cellpadding="2"
+      cellspacing="2" height="117" width="669">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top; font-weight: bold;
+            background-color: rgb(204, 204, 204);">Transition<br>
+          </td>
+          <td style="vertical-align: top; background-color: rgb(204,
+            204, 204);"><span style="font-weight: bold;">Condition</span><br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">R-T6-1<br>
+          </td>
+          <td style="vertical-align: top;">mDriveSpeed == [0,STOP]
+            &amp;&amp; (mCarCall[f,b] == true || mHallCall[f,b,d] ==
+            true)</td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">R-T6-2 </td>
+          <td style="vertical-align: top;">mDriveSpeed == [0,STOP]
+            &amp;&amp; mCarCall[f,b] == false &amp;&amp;
+            mHallCall[f,b,d] == false &amp;&amp; currentFloor !=
+            lastStoppedFloor<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">R-T6-3 </td>
+          <td style="vertical-align: top;">mDriveSpeed != [0,STOP]<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">R-T6-4 </td>
+          <td valign="top">mDriveSpeed != [0,STOP]<br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <h3> 2.
+      <meta charset="utf-8">
+      R-T7: The Car shall only open Doors at Hallways for which there
+      are pending calls.<br>
+    </h3>
+    <h2><span style="color: rgb(0, 0, 0); font-family: Times; font-size:
+        medium; font-style: normal; font-variant: normal; font-weight:
+        normal; letter-spacing: normal; line-height: normal; orphans:
+        auto; text-align: left; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: auto; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; display: inline !important;
+        float: none;"></span></h2>
+    <span style="color: rgb(0, 0, 0); font-family: Times; font-size:
+      medium; font-style: normal; font-variant: normal; font-weight:
+      normal; letter-spacing: normal; line-height: normal; orphans:
+      auto; text-align: left; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px; display: inline !important; float:
+      none;"><b>State Chart:<br>
+        <img alt="" src="R-T7.png" height="192" width="438"><br>
+      </b></span><br>
+    <table style="text-align: left;" border="1" cellpadding="2"
+      cellspacing="2" height="117" width="669">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top; font-weight: bold;
+            background-color: rgb(204, 204, 204);">Transition<br>
+          </td>
+          <td style="vertical-align: top; background-color: rgb(204,
+            204, 204);"><span style="font-weight: bold;">Condition</span><br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">R-T7-1<br>
+          </td>
+          <td style="vertical-align: top;">DoorMotor == OPEN &amp;&amp;
+            (CarCall[f,b] == true || HallCall[f,b,d] == true)<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">R-T7-2 </td>
+          <td style="vertical-align: top;">DoorMotor == OPEN &amp;&amp;
+            !(CarCall[f,b] == true || HallCall[f,b,d] == true) </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">R-T7-3 </td>
+          <td style="vertical-align: top;">DoorMotor != OPEN<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">R-T7-4 </td>
+          <td valign="top">DoorMotor != OPEN</td>
+        </tr>
+      </tbody>
+    </table>
+    <span style="color: rgb(0, 0, 0); font-family: Times; font-size:
+      medium; font-style: normal; font-variant: normal; font-weight:
+      normal; letter-spacing: normal; line-height: normal; orphans:
+      auto; text-align: left; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px; display: inline !important; float:
+      none;"> </span><span style="color: rgb(0, 0, 0); font-family:
+      Times; font-size: medium; font-style: normal; font-variant:
+      normal; font-weight: normal; letter-spacing: normal; line-height:
+      normal; orphans: auto; text-align: left; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline
+      !important; float: none;"></span>
+    <h3>3. R-T8: The Car Lanterns shall be used in a way that does not
+      confuse passengers.
+      <meta charset="utf-8">
+    </h3>
+    <h3>&nbsp;&nbsp;&nbsp; 3.1. R-T8.1: If any door is open at a hallway
+      and there are any pending calls at any other floor(s), a Car
+      Lantern shall turn on.</h3>
+    <p><img alt="rt8.1" src="R-T8.1.png" height="129" width="278"><br>
+    </p>
+    <table style="text-align: left;" border="1" cellpadding="2"
+      cellspacing="2" height="117" width="669">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top; font-weight: bold;
+            background-color: rgb(204, 204, 204);">Transition<br>
+          </td>
+          <td style="vertical-align: top; background-color: rgb(204,
+            204, 204);"><span style="font-weight: bold;">Condition</span><br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">R-T8.1-1<br>
+          </td>
+          <td style="vertical-align: top;">anyOtherCall == true
+            &amp;&amp; !(CarLantern[d] == true) &amp;&amp;
+            mDesiredFloor.d == STOP<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">R-T8.1-2 </td>
+          <td style="vertical-align: top;">!(anyOtherCall == true
+            &amp;&amp; !(CarLantern[d] == true)) &amp;&amp;
+            mDesiredFloor.d == STOP</td>
+        </tr>
+      </tbody>
+    </table>
+    <h3>&nbsp;&nbsp;&nbsp; 3.2. R-T8.2: If one of the car lanterns is
+      lit, the direction indicated shall not change while the doors are
+      open.</h3>
+    <img alt="rt8.2" src="R-T8.2.png" height="129" width="278"><br>
+    <table style="text-align: left;" border="1" cellpadding="2"
+      cellspacing="2" height="117" width="669">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top; font-weight: bold;
+            background-color: rgb(204, 204, 204);">Transition<br>
+          </td>
+          <td style="vertical-align: top; background-color: rgb(204,
+            204, 204);"><span style="font-weight: bold;">Condition</span><br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">R-T8.2-1<br>
+          </td>
+          <td style="vertical-align: top;">CarLantern[UP] == true
+            &amp;&amp; CarLantern[DOWN] == true<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">R-T8.2-2 </td>
+          <td style="vertical-align: top;">!(CarLantern[UP] == true
+            &amp;&amp; CarLantern[DOWN] == true)<br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <h3>&nbsp;&nbsp;&nbsp; 3.2. R-T8.3&nbsp; If one of the car lanterns
+      is lit, the car shall service any calls in that direction first.</h3>
+    <img alt="rt8.3" src="R-T8.3.png" height="129" width="278"><br>
+    <table style="text-align: left;" border="1" cellpadding="2"
+      cellspacing="2" height="117" width="669">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top; font-weight: bold;
+            background-color: rgb(204, 204, 204);">Transition<br>
+          </td>
+          <td style="vertical-align: top; background-color: rgb(204,
+            204, 204);"><span style="font-weight: bold;">Condition</span><br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">R-T8.3-1<br>
+          </td>
+          <td style="vertical-align: top;">(CarLantern[UP] == true
+            &amp;&amp; mDesiredFloor.f &lt; currentFloor) ||
+            (CarLantern[DOWN] == true &amp;&amp; mDesiredFloor.f &gt;
+            currentFloor) </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">R-T8.3-2 </td>
+          <td style="vertical-align: top;">!((CarLantern[UP] == true
+            &amp;&amp; mDesiredFloor.f &lt; currentFloor) ||
+            (CarLantern[DOWN] == true &amp;&amp; mDesiredFloor.f &gt;
+            currentFloor))<br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <h3> </h3>
+    <h3>4. R-T9: The Drive shall be commanded to fast speed to the
+      maximum degree practicable.</h3>
+    <img alt="d" src="R-T9.png" height="229" width="406"><br>
+    <br>
+    <table style="text-align: left;" border="1" cellpadding="2"
+      cellspacing="2" height="117" width="669">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top; font-weight: bold;
+            background-color: rgb(204, 204, 204);">Transition<br>
+          </td>
+          <td style="vertical-align: top; background-color: rgb(204,
+            204, 204);"><span style="font-weight: bold;">Condition</span><br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">R-T9-1<br>
+          </td>
+          <td style="vertical-align: top;">Drive.s == Slow &amp;&amp;
+            fastCalculation == true<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">R-T9-2 </td>
+          <td style="vertical-align: top;">Drive.s == Slow &amp;&amp;
+            fastCalculation == false<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">R-T9-3 </td>
+          <td style="vertical-align: top;">Drive.s != Slow<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">R-T9-4 </td>
+          <td valign="top">Drive.s != Slow</td>
+        </tr>
+        <tr>
+          <td valign="top">R-T9-5<br>
+          </td>
+          <td valign="top">Drive.s == Slow &amp;&amp; fastCalculation ==
+            false</td>
+        </tr>
+        <tr>
+          <td valign="top">R-T9-6<br>
+          </td>
+          <td valign="top">Drive.s == Slow &amp;&amp; fastCalculation ==
+            true</td>
+        </tr>
+      </tbody>
+    </table>
+    <h3> </h3>
+    <h3>5. R-T10: For each stop at a floor, at least one door reversal
+      shall have occured before the doors are commanded to nudge. </h3>
+    <h2><span style="color: rgb(0, 0, 0); font-family: Times; font-size:
+        medium; font-style: normal; font-variant: normal; font-weight:
+        normal; letter-spacing: normal; line-height: normal; orphans:
+        auto; text-align: left; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: auto; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; display: inline !important;
+        float: none;"></span></h2>
+    <span style="color: rgb(0, 0, 0); font-family: Times; font-size:
+      medium; font-style: normal; font-variant: normal; font-weight:
+      normal; letter-spacing: normal; line-height: normal; orphans:
+      auto; text-align: left; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px; display: inline !important; float:
+      none;"><b>State Chart:<br>
+        <img alt="" src="R-T10.png" height="163" width="453"><br>
+      </b></span><br>
+    <table style="text-align: left;" border="1" cellpadding="2"
+      cellspacing="2" height="117" width="669">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top; font-weight: bold;
+            background-color: rgb(204, 204, 204);">Transition<br>
+          </td>
+          <td style="vertical-align: top; background-color: rgb(204,
+            204, 204);"><span style="font-weight: bold;">Condition</span><br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">R-T10-1<br>
+          </td>
+          <td style="vertical-align: top;">mDoorReversal == true<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">R-T10-2 </td>
+          <td style="vertical-align: top;">mDoorClosed == true<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">R-T10-3 </td>
+          <td style="vertical-align: top;">mDoorMotor == Nudge<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">R-T10-4 </td>
+          <td valign="top">mDoorClosed == true </td>
+        </tr>
+        <tr>
+          <td valign="top">R-T10-5<br>
+          </td>
+          <td valign="top">mDoorMotor == Nudge<br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <h2>Verification Instructions</h2>
+    To verify high level requirements, run acceptance tests with
+    "-monitor RuntimeRequirementsMonitor" arguments.<br>
+    <h2>Verification Results</h2>
+    <br>
+    <table style="text-align: left; width: 100%;" border="1"
+      cellpadding="2" cellspacing="2">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top; font-weight: bold;">Acceptance
+            Test Name<br>
+          </td>
+          <td style="vertical-align: top; font-weight: bold;">Verification
+
+
+
+
+
+
+
+
+
+            Status<br>
+          </td>
+          <td style="vertical-align: top; font-weight: bold;">Link to
+            Verification Results<br>
+          </td>
+          <td style="vertical-align: top; font-weight: bold;">Notes<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">proj7acceptance1.pass<br>
+          </td>
+          <td style="vertical-align: top;">pass<br>
+          </td>
+          <td style="vertical-align: top;"><a
+              href="elevator-proj7acceptance1.pass-0.stats">elevator-proj7acceptance1.pass-0.stats</a><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">proj7acceptance2.pass<br>
+          </td>
+          <td valign="top">pass<br>
+          </td>
+          <td valign="top"><a
+              href="elevator-proj7acceptance2.pass-0.stats">elevator-proj7acceptance2.pass-0.stats</a><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">proj7acceptance3.pass<br>
+          </td>
+          <td valign="top">pass<br>
+          </td>
+          <td valign="top"><a
+              href="elevator-proj7acceptance3.pass-0.stats">elevator-proj7acceptance3.pass-0.stats</a><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">proj8group4acceptance1.pass<br>
+          </td>
+          <td valign="top">pass<br>
+          </td>
+          <td valign="top"><a
+              href="elevator-proj8group4acceptance1.pass-0.stats">elevator-proj8group4acceptance1.pass-0.stats</a><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">proj12acceptance1.pass<br>
+          </td>
+          <td valign="top">pass<br>
+          </td>
+          <td valign="top"><a
+              href="elevator-proj12acceptance1.pass-0.stats">elevator-proj12acceptance1.pass-0.stats</a><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">proj12acceptance2.pass<br>
+          </td>
+          <td valign="top">pass<br>
+          </td>
+          <td valign="top"><a
+              href="elevator-proj12acceptance2.pass-0.stats">elevator-proj12acceptance2.pass-0.stats</a><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">proj12acceptance3.pass<br>
+          </td>
+          <td valign="top">pass<br>
+          </td>
+          <td valign="top"><a
+              href="elevator-proj12acceptance3.pass-0.stats">elevator-proj12acceptance3.pass-0.stats</a><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">uppeak_final.pass<br>
+          </td>
+          <td valign="top">pass<br>
+          </td>
+          <td valign="top"><a href="elevator-uppeak_final.pass-0.stats">elevator-uppeak_final.pass-0.stats</a><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">downpeak_final.pass<br>
+          </td>
+          <td valign="top">pass<br>
+          </td>
+          <td valign="top"><a
+              href="elevator-downpeak_final.pass-0.stats">elevator-downpeak_final.pass-0.stats</a><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">
+            <meta charset="utf-8">
+            normal_final.pass</td>
+          <td valign="top">pass<br>
+          </td>
+          <td valign="top"><a href="elevator-normal_final.pass-0.stats">elevator-normal_final.pass-0.stats</a><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+  </body>
+</html>

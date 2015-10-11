@@ -1,0 +1,149 @@
+; 18649 Fall 2014
+; group 4
+; Zhu Zhang(zhuzhang), Hua Liu(hua1), Howard Lee(hweekul)
+; doorcontrol.mf
+
+;Note:  Assertions must be inserted more than two periods after a message or physical
+;value has been inserted to be sure that the change propagates through the system
+
+;this test file demonstrates network and framework message injections
+;and network, framework, and controller state assertions.
+
+#INCLUDE defines.mf ;include CAN id and period definitions
+#DEFINE MESSAGE_PERIOD 0.1s
+;intialize
+0s  I  MESSAGE_PERIOD N AT_FLOOR_[4][FRONT]_CAN_ID AtFloor 4 FRONT = true
+0s I MESSAGE_PERIOD N HALL_CALL_[4][FRONT][UP]_CAN_ID EfficientBoolean = true
+0s  I  MESSAGE_PERIOD N	DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
+0s I MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 4 UP FRONT
+
+;#arc 'DC1'
+0.2s  I  MESSAGE_PERIOD N	DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = false
+
+;check door is opening and the state is the door closed
+0.3s  A  N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT : getValue == false
+0.3s  A  S DoorControl[FRONT][LEFT] : STATE == STATE_DOOR_OPENING
+
+
+;#arc 'DC2'
+;Injection for door is fully opened and setting door closed to false
+0.5s I MESSAGE_PERIOD N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = true
+0.5s I MESSAGE_PERIOD N	DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = false
+0.5s I MESSAGE_PERIOD N HALL_CALL_[4][FRONT][UP]_CAN_ID EfficientBoolean = false
+
+;The desiredfloor is modified to be the next floor.
+0.5s  I  MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 5 UP FRONT
+
+;check if the state is where door is fully opened and the dooropen.
+1.0s  A  N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT : getValue == true
+1.0s  A  S DoorControl[FRONT][LEFT] : STATE == STATE_DOOR_OPENED
+
+;Assertions right before it starts to close
+5.5s  A  N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT : getValue == true
+5.5s  A  S DoorControl[FRONT][LEFT] : STATE == STATE_DOOR_OPENED
+
+;#arc 'DC4'
+;Injection for door closing, when the countdown has reached below zero.  The door opened must be set to false
+5.6s I MESSAGE_PERIOD N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = false
+
+
+;Assertions right after it begins to close
+5.8s  A  N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT : getValue == false
+5.8s  A  S DoorControl[FRONT][LEFT] : STATE == STATE_DOOR_CLOSING
+
+;#arc 'DC9'
+;Injection on DoorReversal;
+5.9s I MESSAGE_PERIOD N DOOR_REVERSAL_SENSOR_[FRONT][LEFT]_CAN_ID DoorReversal FRONT LEFT = true
+
+;#arc 'DC10'
+;Assertion on whether doorReversal has caused the door to open.
+6.2s  A  S DoorControl[FRONT][LEFT] : STATE == STATE_DOOR_OPENING
+
+;#arc 'DC2'
+;Injection for door opened
+6.4s I MESSAGE_PERIOD N	DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = true
+
+6.6s I MESSAGE_PERIOD N DOOR_REVERSAL_SENSOR_[FRONT][LEFT]_CAN_ID DoorReversal FRONT LEFT = false
+
+11.8s  A  S DoorControl[FRONT][LEFT] : STATE == STATE_DOOR_CLOSING
+
+;#arc 'DC5'
+12.0s I MESSAGE_PERIOD N CAR_WEIGHT_CAN_ID CarWeight = 15000
+12.0s I MESSAGE_PERIOD N	DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = false
+12.3s  A  S DoorControl[FRONT][LEFT] : STATE == STATE_DOOR_OPENING
+
+;#arc 'DC2'
+12.4s I MESSAGE_PERIOD N CAR_WEIGHT_CAN_ID CarWeight = 10000
+12.4s I MESSAGE_PERIOD N	DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = true
+13.0s I MESSAGE_PERIOD N	DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = false
+
+;#arc 'DC5'
+;Injection for HallCall Pressed
+17.9s I MESSAGE_PERIOD N HALL_CALL_[4][FRONT][UP]_CAN_ID EfficientBoolean = true
+18.5s I MESSAGE_PERIOD N HALL_CALL_[4][FRONT][UP]_CAN_ID EfficientBoolean = false
+
+;Assertion for State Door Opening
+20.0s A S DoorControl[FRONT][LEFT] : STATE == STATE_DOOR_OPENING
+
+;#arc 'DC2'
+;Injection for Door Opened.
+22.0s I MESSAGE_PERIOD N	DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = true
+23.0s I MESSAGE_PERIOD N	DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = false
+
+;#arc 'DC5'
+;Injection for CarCall Pressed
+27.4s I MESSAGE_PERIOD N CAR_CALL_[4][FRONT]_CAN_ID EfficientBoolean = true
+28.0s I MESSAGE_PERIOD N CAR_CALL_[4][FRONT]_CAN_ID EfficientBoolean = false
+
+;Assertion for State Door Opening
+30.0s A S DoorControl[FRONT][LEFT] : STATE == STATE_DOOR_OPENING
+
+;#arc 'DC2'
+;Injection for Door Opened.
+32.3s I MESSAGE_PERIOD N	DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = true
+34.0s I MESSAGE_PERIOD N	DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = false
+
+;#arc 'DC9'
+;Injection for doorReversal #2
+39.0s I MESSAGE_PERIOD N DOOR_REVERSAL_SENSOR_[FRONT][LEFT]_CAN_ID DoorReversal FRONT LEFT = true
+40.0s I MESSAGE_PERIOD N DOOR_REVERSAL_SENSOR_[FRONT][LEFT]_CAN_ID DoorReversal FRONT LEFT = false
+42.0s I MESSAGE_PERIOD N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = true
+43.0s I MESSAGE_PERIOD N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = true
+
+;#arc 'DC9'
+;Injection for doorReversal #3
+47.4s I MESSAGE_PERIOD N DOOR_REVERSAL_SENSOR_[FRONT][LEFT]_CAN_ID DoorReversal FRONT LEFT = true
+47.8s I MESSAGE_PERIOD N DOOR_REVERSAL_SENSOR_[FRONT][LEFT]_CAN_ID DoorReversal FRONT LEFT = false
+49.0s I MESSAGE_PERIOD N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = true
+49.3s I MESSAGE_PERIOD N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = true
+
+;#arc 'DC6'
+;Assertion on state nudging
+;Injection for door closed
+53.0s A  S DoorControl[FRONT][LEFT] : STATE == STATE_DOOR_NUDGING
+72s I MESSAGE_PERIOD N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = false
+
+
+;#arc 'DC7'
+;Injection on the door closed.
+58s I MESSAGE_PERIOD N	DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
+
+;Assertions on whether door is closed and the state is at doorclosed
+65.0s  A  N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT : getValue == true
+65.0s  A  S DoorControl[FRONT][LEFT] : STATE == STATE_DOOR_CLOSED
+
+;#arc 'DC1'
+70s I MESSAGE_PERIOD N HALL_CALL_[4][FRONT][UP]_CAN_ID EfficientBoolean = true
+71s I MESSAGE_PERIOD N HALL_CALL_[4][FRONT][UP]_CAN_ID EfficientBoolean = false
+71s I MESSAGE_PERIOD N	DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = false
+71.5s I MESSAGE_PERIOD N	DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
+
+;#arc 'DC4'
+72s I MESSAGE_PERIOD N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = false
+
+;#arc 'DC3'
+76s I MESSAGE_PERIOD N	DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
+
+
+
+

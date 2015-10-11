@@ -1,0 +1,30 @@
+;18649-Fall-2014
+;Group 4
+;Zhu Zhang (zhuzhang), Hua Liu (hual1), Howard Lee(hweekeul)
+
+Simulator Parameters:
+Command line = -cf sd2a1.cf -mf sd2a1.mf -head headfile -rt 1s
+RandomSeed = 1416848338012
+CanNetworkBitTime = 0 ns
+Effective Can Bitrate = Infinity
+Run Time = 1.0s
+Real time rate = null
+Message File = sd2a1.mf
+Controller File = sd2a1.cf
+
+Assertion Results:
+@0.42s:  PASSED DoorControl[FRONT][RIGHT]::checkState(STATE) ?== STATE_DOOR_OPENED PASSED
+@1.13s:  PASSED simulator.payloads.CarLightPayload$ReadableCarLightPayload@266474c2 :: lighted ?== true PASSED
+@1.33s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@5e481248 :: getValue ?== true PASSED
+@6.33s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@63947c6b :: command ?== CLOSE PASSED
+@6.64s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@355da254 :: command ?== STOP PASSED
+@6.64s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@d716361 :: getValue ?== true PASSED
+@6.64s:  PASSED simulator.payloads.CarLightPayload$ReadableCarLightPayload@3764951d :: lighted ?== true PASSED
+@6.64s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@4d7e1886 :: getValue ?== true PASSED
+
+
+******************Summary******************
+Passed:  8
+Failed:  0
+Total :  8
+

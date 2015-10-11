@@ -1,0 +1,63 @@
+; 18649 2014 Fall
+; group #4
+; Zhu Zhang (zhuzhang), Hua Liu (hual1), Howard Lee (hweekeul)
+; Unit test for Dispatcher
+; Hua Liu
+; Last modified 2014-10-30
+; dispatcher_test1.mf
+
+#INCLUDE defines.mf ;include CAN id and period definitions
+#DEFINE MESSAGE_PERIOD 100ms
+
+;initialize
+0s I MESSAGE_PERIOD N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = true
+0s I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
+0s I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
+0s I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = true
+0s I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = true
+
+;check Dispatcher initial state
++1s A S Dispatcher : STATE == STATE_DOOR_CLOSE
++0s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 1
++0s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == NONE
++0s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
++0s A N DESIRED_DWELL_[FRONT]_CAN_ID Integer : getValue == 10
++0s A N DESIRED_DWELL_[BACK]_CAN_ID Integer : getValue == 10
+
+
+;Set conditions for DT1
++1s I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = false
++0s I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = false
+
+;#transition 'DT1'
++1s A S Dispatcher : STATE == STATE_DOOR_OPEN
+
+;Set conditions for DF.d change
+;HallCall in 4F/Front
++1s I MESSAGE_PERIOD N HALL_CALL_[4][FRONT][UP]_CAN_ID EfficientBoolean = true
++0s I MESSAGE_PERIOD N HALL_CALL_[7][FRONT][UP]_CAN_ID EfficientBoolean = true
+;1st Floor HallCall to block car
++0s I MESSAGE_PERIOD N CAR_CALL_[1][FRONT]_CAN_ID EfficientBoolean = true
+
+;check if DesiredFloor.d changed
++1s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 1
++0s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == NONE
++0s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == UP
+
+;make sure all calls at 1st floor are cleared
++0s I MESSAGE_PERIOD N HALL_CALL_[1][FRONT][UP]_CAN_ID EfficientBoolean = false
++0s I MESSAGE_PERIOD N HALL_CALL_[1][BACK][UP]_CAN_ID EfficientBoolean = false
++0s I MESSAGE_PERIOD N CAR_CALL_[1][FRONT]_CAN_ID EfficientBoolean = false
+
++1s A S Dispatcher : STATE == STATE_DOOR_OPEN
++0s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 1
++0s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == NONE
++0s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == UP
+
+;Set conditions for DT2
++1s I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
++0s I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
+
+;#transition 'DT2'
++1s A S Dispatcher : STATE == STATE_DOOR_CLOSE
+

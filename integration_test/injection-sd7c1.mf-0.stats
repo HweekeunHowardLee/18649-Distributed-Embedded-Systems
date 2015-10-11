@@ -1,0 +1,24 @@
+;18649-Fall-2014
+;Group 4
+;Zhu Zhang (zhuzhang), Hua Liu (hual1), Howard Lee(hweekeul)
+
+Simulator Parameters:
+Command line = -cf sd7c1.cf -mf sd7c1.mf -head headfile -rt 1s
+RandomSeed = 1416848341113
+CanNetworkBitTime = 0 ns
+Effective Can Bitrate = Infinity
+Run Time = 1.0s
+Real time rate = null
+Message File = sd7c1.mf
+Controller File = sd7c1.cf
+
+Assertion Results:
+@8.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@355da254 :: command ?== CLOSE PASSED
+@11.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@d716361 :: command ?== STOP PASSED
+
+
+******************Summary******************
+Passed:  2
+Failed:  0
+Total :  2
+

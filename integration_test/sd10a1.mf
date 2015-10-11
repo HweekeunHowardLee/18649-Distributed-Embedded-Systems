@@ -1,0 +1,65 @@
+; group #4
+; Zhu Zhang (zhuzhang), Hua Liu (hual1), Howard Lee (hweekeul)
+; Unit test for HallButtonControl
+; Hua Liu
+; Last modified 2014-10-09
+; sd10a1.mf
+
+#INCLUDE defines.mf ;include CAN id and period definitions
+#DEFINE MESSAGE_PERIOD 0.1s
+
+;initialize
+;Door closed
+0s I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
+0.51s A S DoorControl[FRONT][RIGHT] : STATE == STATE_DOOR_CLOSED
+
+;Door opening
+0.61s I MESSAGE_PERIOD N AT_FLOOR_[4][FRONT]_CAN_ID AtFloor 4 FRONT = true
+0.61s I MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 4 STOP FRONT
+0.61s I MESSAGE_PERIOD N HALL_CALL_[4][FRONT][UP]_CAN_ID EfficientBoolean = True
+0.61s I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = false
+1.01s I MESSAGE_PERIOD N HALL_CALL_[4][FRONT][UP]_CAN_ID EfficientBoolean = False
+
+;Door opened
+1.11s I MESSAGE_PERIOD N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = true
+1.61s A S DoorControl[FRONT][RIGHT] : STATE == STATE_DOOR_OPENED
+
+;Door closing
+6.31s A S DoorControl[FRONT][RIGHT] : STATE == STATE_DOOR_CLOSING
+
+;Door reversal triggered (frist reversal)
+6.32s I MESSAGE_PERIOD N DOOR_REVERSAL_SENSOR_[FRONT][RIGHT]_CAN_ID DoorReversal FRONT RIGHT = true
+6.34s I MESSAGE_PERIOD N DOOR_REVERSAL_SENSOR_[FRONT][RIGHT]_CAN_ID DoorReversal FRONT RIGHT = false
+
+;Door opened
+6.60s I MESSAGE_PERIOD N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = true
+6.65s I MESSAGE_PERIOD N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = false
+
+;Door reversal triggered (second reversal)
+11.9s I MESSAGE_PERIOD N DOOR_REVERSAL_SENSOR_[FRONT][RIGHT]_CAN_ID DoorReversal FRONT RIGHT = true
+12.0s I MESSAGE_PERIOD N DOOR_REVERSAL_SENSOR_[FRONT][RIGHT]_CAN_ID DoorReversal FRONT RIGHT = false
+
+;Door opened
+13.0s I MESSAGE_PERIOD N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = true
+13.1s I MESSAGE_PERIOD N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = false
+
+;#arc '10A/1'
+18.5s A F DoorMotor FRONT RIGHT : command == CLOSE
+
+;#arc '10A/2'
+;Door reversal triggered (third reversal)
+18.6s I MESSAGE_PERIOD N DOOR_REVERSAL_SENSOR_[FRONT][RIGHT]_CAN_ID DoorReversal FRONT RIGHT = true
+18.7s I MESSAGE_PERIOD N DOOR_REVERSAL_SENSOR_[FRONT][RIGHT]_CAN_ID DoorReversal FRONT RIGHT = false
+
+;#arc '10A/3'
+19.0s A F DoorMotor FRONT RIGHT : command == OPEN
+
+;#arc '10A/4'
+20.0s I MESSAGE_PERIOD N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = true
+22.0s I MESSAGE_PERIOD N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = false
+
+;#arc '10A/5'
+24.0s A F DoorMotor FRONT RIGHT : command == STOP
+
+;#arc '10A/6'
+26.0s A F DoorMotor FRONT RIGHT : command == NUDGE

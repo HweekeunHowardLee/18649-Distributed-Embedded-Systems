@@ -1,0 +1,9 @@
+; group #4
+; Zhu Zhang (zhuzhang), Hua Liu (hual1), Howard Lee (hweekeul)
+; Unit test for HallButtonControl
+; Hua Liu
+; Last modified 2014-10-09
+; sd11d1.cf
+
+
+HallButtonControl 4 FRONT UP 100.0ms TRUE

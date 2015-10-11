@@ -1,0 +1,41 @@
+; 18649 Fall 2014
+; group 4
+; Zhu Zhang(zhuzhang), Hua Liu(hua1), Howard Lee(hweekul)
+; sd7b.mf
+
+#INCLUDE defines.mf
+#DEFINE MESSAGE_PERIOD 0.1s
+
+
+;preconditions
+;All doors are closed
+0s  I  MESSAGE_PERIOD N	DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = false
+0s  I  MESSAGE_PERIOD N	DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = false
+0s  I  MESSAGE_PERIOD N	DOOR_OPEN_SENSOR_[BACK][LEFT]_CAN_ID DoorOpened BACK LEFT = false
+0s  I  MESSAGE_PERIOD N	DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID DoorOpened BACK RIGHT = false
+
+0s  I  MESSAGE_PERIOD N	DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
+0s  I  MESSAGE_PERIOD N	DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
+0s  I  MESSAGE_PERIOD N	DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = true
+0s  I  MESSAGE_PERIOD N	DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = true
+
+0s  I  MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 3 UP FRONT
+
+;#arc '7B/1a'
+;The Elevator at 3rd floor, front hallway is received as true.
+;The door control sets DoorMotor[FRONT][LEFT] to open.
+0.1s  I  MESSAGE_PERIOD N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = true
+0.1s  I  MESSAGE_PERIOD N DRIVE_SPEED_CAN_ID DriveSpeed = 0 STOP
+0.1s  I  MESSAGE_PERIOD N HALL_CALL_[3][FRONT][UP]_CAN_ID EfficientBoolean = true
+
+;#arc '7B/1b'
+;Check the doorMotor is set to open.
+0.51s  A  F DoorMotor FRONT LEFT : command == OPEN
+
+;#arc '7B/2a'
+;The doorOpened[FRONT][LEFT] is set true.
+2s  I  MESSAGE_PERIOD N	DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = true
+
+;#arc '7B/2b'
+;Check the door motor is set to stop.
+2.5s  A  F DoorMotor FRONT LEFT : command == STOP

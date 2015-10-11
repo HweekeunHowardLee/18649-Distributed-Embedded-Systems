@@ -1,0 +1,41 @@
+; 18649 2014 Fall
+; group #4
+; Zhu Zhang (zhuzhang), Hua Liu (hual1), Howard Lee (hweekeul)
+; sd3a1.mf
+
+#INCLUDE defines.mf ;include CAN id and period definitions
+#DEFINE MESSAGE_PERIOD 200ms
+
+;preconditions ;use BooleanCanPayloadTranslator for HallCall
+0s I MESSAGE_PERIOD F HallCall 3 FRONT UP = true
+0s I MESSAGE_PERIOD N DRIVE_SPEED_CAN_ID DriveSpeed = UP 0.25
+0s I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
+0s I MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 3 UP FRONT
+
+;#arc '3A/1a'
+;#arc '3A/1b'
+;#arc '3A/3c'
++0.21s I MESSAGE_PERIOD N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = true
++0s I MESSAGE_PERIOD N DRIVE_SPEED_CAN_ID DriveSpeed = STOP 0
+
+;#arc '3A/2'
++0.61s A F CarLantern UP : lighted == true
+
+;#arc '3A/3'
++0s A F DoorMotor FRONT RIGHT : command == OPEN
++0.1s I MESSAGE_PERIOD F HallCall 3 FRONT UP = false
+
+;#arc '3A/4a'
++0.01s I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = false
++0s    I MESSAGE_PERIOD N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = true
+
+;#arc '3A/4b'
++0.21s A F DoorMotor FRONT RIGHT : command == STOP
+
+;#arc '3A/5'
++0.3s A F HallLight 3 FRONT UP : lighted == false
+
+;postconditions
++0s  A N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT : getValue == true
++0s  A F CarLantern UP : lighted == true
++0s  A N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT : getValue == true

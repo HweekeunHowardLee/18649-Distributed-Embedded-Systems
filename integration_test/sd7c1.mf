@@ -1,0 +1,49 @@
+; 18649 Fall 2014
+; group 4
+; Zhu Zhang(zhuzhang), Hua Liu(hua1), Howard Lee(hweekul)
+; sd7c.mf
+
+#INCLUDE defines.mf
+#DEFINE MESSAGE_PERIOD 0.1s
+
+
+;preconditions
+;Door front left is left open.
+0s  I  MESSAGE_PERIOD N	DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = false
+0s  I  MESSAGE_PERIOD N	DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = false
+0s  I  MESSAGE_PERIOD N	DOOR_OPEN_SENSOR_[BACK][LEFT]_CAN_ID DoorOpened BACK LEFT = false
+0s  I  MESSAGE_PERIOD N	DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID DoorOpened BACK RIGHT = false
+
+0s  I  MESSAGE_PERIOD N	DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
+0s  I  MESSAGE_PERIOD N	DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
+0s  I  MESSAGE_PERIOD N	DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = true
+0s  I  MESSAGE_PERIOD N	DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = true
+
+0s  I  MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 3 UP FRONT
+0s  I MESSAGE_PERIOD N HALL_CALL_[3][FRONT][UP]_CAN_ID EfficientBoolean = True
+
+;The State of the door control starts at STATE_DOOR_CLOSED.  Must be modified to door opened to fit the pre condition
+0s  I  MESSAGE_PERIOD N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = true
+0s  I  MESSAGE_PERIOD N DRIVE_SPEED_CAN_ID DriveSpeed = 0 STOP
+0s  I  MESSAGE_PERIOD N CAR_CALL_[3][FRONT]_CAN_ID EfficientBoolean = true
+1s  I  MESSAGE_PERIOD N	DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = false
++0s I MESSAGE_PERIOD N CAR_CALL_[3][FRONT]_CAN_ID EfficientBoolean = false
+
+;Dispatcher modifies and desiredfloor is modified.
+1s  I  MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 4 UP FRONT
+
+;Door is opend up all the way
+2s  I  MESSAGE_PERIOD N	DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = true
+2s  I MESSAGE_PERIOD N HALL_CALL_[3][FRONT][UP]_CAN_ID EfficientBoolean = false
+
+;#arc '7C/1'
+;DoorMotor is commanded to close after certain amount of time the door is open.
+8.0s  A  F DoorMotor FRONT LEFT : command == CLOSE
+
+;#arc '7C/2a'
+;The door is closed all the way.
+9s  I  MESSAGE_PERIOD N	DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
+
+;#arc '7C/2b'
+;#DoorMotor is commanded to stop since it is closed all the way
+11s  A  F DoorMotor FRONT LEFT : command == STOP

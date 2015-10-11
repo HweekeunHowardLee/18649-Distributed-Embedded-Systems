@@ -1,0 +1,29 @@
+;18649-Fall-2014
+;Group 4
+;Zhu Zhang (zhuzhang), Hua Liu (hual1), Howard Lee(hweekeul)
+
+Simulator Parameters:
+Command line = -head headfile -cf sd10a1.cf -mf sd10a1.mf -fs 5.0
+RandomSeed = 1416863689102
+CanNetworkBitTime = 0 ns
+Effective Can Bitrate = Infinity
+Run Time = null
+Real time rate = null
+Message File = sd10a1.mf
+Controller File = sd10a1.cf
+
+Assertion Results:
+@0.51s:  PASSED DoorControl[FRONT][RIGHT]::checkState(STATE) ?== STATE_DOOR_CLOSED PASSED
+@1.61s:  PASSED DoorControl[FRONT][RIGHT]::checkState(STATE) ?== STATE_DOOR_OPENED PASSED
+@6.31s:  PASSED DoorControl[FRONT][RIGHT]::checkState(STATE) ?== STATE_DOOR_CLOSING PASSED
+@18.5s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@23fc625e :: command ?== CLOSE PASSED
+@19.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@4f023edb :: command ?== OPEN PASSED
+@24.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@7adf9f5f :: command ?== STOP PASSED
+@26.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@5674cd4d :: command ?== NUDGE PASSED
+
+
+******************Summary******************
+Passed:  7
+Failed:  0
+Total :  7
+

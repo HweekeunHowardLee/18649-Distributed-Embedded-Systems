@@ -1,0 +1,8 @@
+; 18649 2014 Fall
+; group #4
+; Zhu Zhang (zhuzhang), Hua Liu (hual1), Howard Lee (hweekeul)
+; sd3a1.cf
+
+DoorControl FRONT RIGHT 10ms TRUE
+HallButtonControl 3 FRONT UP 100ms TRUE
+LanternControl UP 200ms TRUE

@@ -1,0 +1,923 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta content="text/html; charset=windows-1252"
+      http-equiv="Content-Type">
+    <title>18649 - Network Schedule</title>
+  </head>
+  <body>
+    <h1 style="text-align: center;">18649 - Network Schedule<br>
+    </h1>
+    <hr style="width: 100%; height: 2px;">18649 Fall 2014<br>
+    Group 4 - Zhu Zhang (zhuzhang), Hua Liu (hual1), Howard Lee
+    (hweekeul)
+    <hr style="width: 100%; height: 2px;">
+    <h2>CAN Message Dictionary<br>
+    </h2>
+    7 messages (mHallLight, mDrive, mDoorMotor, mCarPositionIndicator,
+    mCarLantern, mCarLight, mCarWeightAlarm) are removed and message IDs
+    are re-assigned based on deadline priorities.<br>
+    <meta http-equiv="Content-Type" content="text/html;
+      charset=windows-1252">
+    <table border="2" cellpadding="1" cellspacing="1" height="627"
+      width="1065">
+      <tbody>
+        <tr style="height:12.0pt" height="12">
+          <td class="xl63" style="height:12.0pt;width:136pt" height="12"
+            width="136">Sender Node Name</td>
+          <td class="xl63" style="border-left:none;width:280pt"
+            width="280">Message Name</td>
+          <td class="xl63" style="border-left:none;width:81pt"
+            width="81">Deadline (ms)</td>
+          <td class="xl63" style="border-left:none;width:68pt"
+            width="68">Message ID</td>
+          <td class="xl63" style="border-left:none;width:108pt"
+            width="108">Sender Node Type</td>
+          <td class="xl63" style="border-left:none;width:99pt"
+            width="99">Replication Type</td>
+          <td class="xl63" style="border-left:none;width:74pt"
+            width="74">Base CAN ID</td>
+        </tr>
+        <tr style="height:12.0pt" height="12">
+          <td class="xl64" style="height:12.0pt;border-top:none"
+            height="12">Drive Control</td>
+          <td class="xl64" style="border-top:none;border-left:none">Drive_Speed</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">10</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">1000</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">181</td>
+          <td class="xl64" style="border-top:none;border-left:none">none</td>
+          <td class="xl64" style="border-top:none;border-left:none">0x0BE8B500</td>
+        </tr>
+        <tr style="height:12.0pt" height="12">
+          <td class="xl64" style="height:12.0pt;border-top:none"
+            height="12">Door Reversal Sensor</td>
+          <td class="xl64" style="border-top:none;border-left:none">Door_Reversal_Sensor(Door_Reversal_Sensor_Base)</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">10</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">1100</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">100</td>
+          <td class="xl64" style="border-top:none;border-left:none">hall,
+
+
+
+            side</td>
+          <td class="xl64" style="border-top:none;border-left:none">0x0C4C6400</td>
+        </tr>
+        <tr style="height:12.0pt" height="12">
+          <td class="xl64" style="height:12.0pt;border-top:none"
+            height="12">Level Sensor</td>
+          <td class="xl64" style="border-top:none;border-left:none">Level_Sensor(Leveling_Base)</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">10</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">1200</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">20</td>
+          <td class="xl64" style="border-top:none;border-left:none">direction</td>
+          <td class="xl64" style="border-top:none;border-left:none">0x0CB01400</td>
+        </tr>
+        <tr style="height:12.0pt" height="12">
+          <td class="xl64" style="height:12.0pt;border-top:none"
+            height="12">Door Control</td>
+          <td class="xl64" style="border-top:none;border-left:none">Door_Motor_Command</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">10</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">1201</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">21</td>
+          <td class="xl64" style="border-top:none;border-left:none">hall,
+
+
+
+            side</td>
+          <td class="xl64" style="border-top:none;border-left:none">0x0CB11500</td>
+        </tr>
+        <tr style="height:12.0pt" height="12">
+          <td class="xl64" style="height:12.0pt;border-top:none"
+            height="12">Safety Sensor</td>
+          <td class="xl64" style="border-top:none;border-left:none">Emergency_Brake</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">50</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">1300</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">30</td>
+          <td class="xl64" style="border-top:none;border-left:none">none</td>
+          <td class="xl64" style="border-top:none;border-left:none">0x0D141E00</td>
+        </tr>
+        <tr style="height:12.0pt" height="12">
+          <td class="xl64" style="height:12.0pt;border-top:none"
+            height="12">At Floor Sensor</td>
+          <td class="xl64" style="border-top:none;border-left:none">At_Floor(At_Floor_Base)</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">50</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">1400</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">40</td>
+          <td class="xl64" style="border-top:none;border-left:none">floor,
+
+
+
+            hall</td>
+          <td class="xl64" style="border-top:none;border-left:none">0x0D782800</td>
+        </tr>
+        <tr style="height:12.0pt" height="12">
+          <td class="xl64" style="height:12.0pt;border-top:none"
+            height="12">Dispatcher</td>
+          <td class="xl64" style="border-top:none;border-left:none">Desired_Floor</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">50</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">1500</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">182</td>
+          <td class="xl64" style="border-top:none;border-left:none">none</td>
+          <td class="xl64" style="border-top:none;border-left:none">0x0DDCB600</td>
+        </tr>
+        <tr style="height:12.0pt" height="12">
+          <td class="xl64" style="height:12.0pt;border-top:none"
+            height="12">Dispatcher</td>
+          <td class="xl64" style="border-top:none;border-left:none">Desired_Dwell(Desired_Dwell_Base)</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">50</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">1600</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">182</td>
+          <td class="xl64" style="border-top:none;border-left:none">hall</td>
+          <td class="xl64" style="border-top:none;border-left:none">0x0E40B600</td>
+        </tr>
+        <tr style="height:12.0pt" height="12">
+          <td class="xl64" style="height:12.0pt;border-top:none"
+            height="12">Car Level Position Sensor</td>
+          <td class="xl64" style="border-top:none;border-left:none">Car_Level_Position</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">50</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">1700</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">60</td>
+          <td class="xl64" style="border-top:none;border-left:none">none</td>
+          <td class="xl64" style="border-top:none;border-left:none">0x0EA43C00</td>
+        </tr>
+        <tr style="height:12.0pt" height="12">
+          <td class="xl64" style="height:12.0pt;border-top:none"
+            height="12">Hall Button Control</td>
+          <td class="xl64" style="border-top:none;border-left:none">Hall_Call(Hall_Call_Base)</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">100</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">1800</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">185</td>
+          <td class="xl64" style="border-top:none;border-left:none">floor,
+
+
+
+            hall, direction</td>
+          <td class="xl64" style="border-top:none;border-left:none">0x0F08B900</td>
+        </tr>
+        <tr style="height:12.0pt" height="12">
+          <td class="xl64" style="height:12.0pt;border-top:none"
+            height="12">Door Closed Sensor</td>
+          <td class="xl64" style="border-top:none;border-left:none">Door_Closed_Sensor(Door_Closed_Sensor_Base)</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">100</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">1900</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">80</td>
+          <td class="xl64" style="border-top:none;border-left:none">hall,
+
+
+
+            side</td>
+          <td class="xl64" style="border-top:none;border-left:none">0x0F6C5000</td>
+        </tr>
+        <tr style="height:12.0pt" height="12">
+          <td class="xl64" style="height:12.0pt;border-top:none"
+            height="12">Car Button Control</td>
+          <td class="xl64" style="border-top:none;border-left:none">Car_Call(Car_Call_Base)</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">100</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">1901</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">186</td>
+          <td class="xl64" style="border-top:none;border-left:none">floor,
+
+
+
+            hall</td>
+          <td class="xl64" style="border-top:none;border-left:none">0x0F6DBA00</td>
+        </tr>
+        <tr style="height:12.0pt" height="12">
+          <td class="xl64" style="height:12.0pt;border-top:none"
+            height="12">Hoistway Limit Sensor</td>
+          <td class="xl64" style="border-top:none;border-left:none">Hoistway_Limit(Hoistway_Limit_Base)</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">200</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">1902</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">180</td>
+          <td class="xl64" style="border-top:none;border-left:none">direction</td>
+          <td class="xl64" style="border-top:none;border-left:none">0x0F6EB400</td>
+        </tr>
+        <tr style="height:12.0pt" height="12">
+          <td class="xl64" style="height:12.0pt;border-top:none"
+            height="12">Door Opened Sensor</td>
+          <td class="xl64" style="border-top:none;border-left:none">Door_Opened_Sensor(Door_Opened_Sensor_Base)</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">200</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">1903</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">160</td>
+          <td class="xl64" style="border-top:none;border-left:none">hall,
+
+
+
+            side</td>
+          <td class="xl64" style="border-top:none;border-left:none">0x0F6FA000</td>
+        </tr>
+        <tr style="height:12.0pt" height="12">
+          <td class="xl64" style="height:12.0pt;border-top:none"
+            height="12">Weight Sensor</td>
+          <td class="xl64" style="border-top:none;border-left:none">Car_Weight</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">200</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">1904</td>
+          <td class="xl64" style="border-top:none;border-left:none"
+            align="right">120</td>
+          <td class="xl64" style="border-top:none;border-left:none">none</td>
+          <td class="xl64" style="border-top:none;border-left:none">0x0F707800</td>
+        </tr>
+        <!--EndFragment-->
+      </tbody>
+    </table>
+    <h2>Network Schedule Analaysis</h2>
+    Boolean type messages are reduced to 1 byte.<br>
+    <meta http-equiv="Content-Type" content="text/html;
+      charset=windows-1252">
+    <table style="border-collapse: collapse;width:1087pt" border="2"
+      cellpadding="1" cellspacing="1" width="1087">
+      <tbody>
+        <tr style="height:12.0pt" height="12">
+          <td style="height:12.0pt;width:75pt" height="12" width="75"><br>
+          </td>
+          <td style="width:105pt" width="105"><br>
+          </td>
+          <td style="width:81pt" width="81"><br>
+          </td>
+          <td colspan="3" class="xl64" style="width:159pt" width="159">Field
+
+
+
+            1</td>
+          <td colspan="3" class="xl66"
+            style="border-left:none;width:159pt" width="159">Field 2</td>
+          <td colspan="3" class="xl64"
+            style="border-left:none;width:159pt" width="159">Field 3</td>
+          <td rowspan="2" class="xl72" style="border-bottom:.5pt solid
+            black; width:57pt" width="57">Total Payload Bit Len</td>
+          <td rowspan="2" class="xl72" style="border-bottom:.5pt solid
+            black; width:53pt" width="53">Total Payload Byte Len</td>
+          <td rowspan="2" class="xl71" style="width:65pt" width="65">Best
+
+
+
+            Case Msg Len</td>
+          <td rowspan="2" class="xl71" style="width:68pt" width="68">Worst
+
+
+
+            Case Msg Len</td>
+          <td rowspan="2" class="xl71" style="width:53pt" width="53">Best
+
+
+
+            Case BW (bits/sec)</td>
+          <td rowspan="2" class="xl71" style="width:53pt" width="53">Worst
+
+
+
+            Case BW (bits/sec)</td>
+        </tr>
+        <tr style="mso-height-source:userset;height:27.0pt" height="27">
+          <td class="xl65" style="height:27.0pt" height="27">Base CAN ID</td>
+          <td class="xl65">Replication Count</td>
+          <td class="xl65">Deadline (ms)</td>
+          <td class="xl64" style="border-top:none">Desc</td>
+          <td class="xl64" style="border-top:none;border-left:none">Type</td>
+          <td class="xl64" style="border-top:none;border-left:none">Bit
+            Len</td>
+          <td class="xl66" style="border-top:none;border-left:none">Desc</td>
+          <td class="xl66" style="border-top:none;border-left:none">Type</td>
+          <td class="xl66" style="border-top:none;border-left:none">Bit
+            Len</td>
+          <td class="xl64" style="border-top:none;border-left:none">Desc</td>
+          <td class="xl64" style="border-top:none;border-left:none">Type</td>
+          <td class="xl64" style="border-top:none;border-left:none">Bit
+            Len</td>
+        </tr>
+        <tr style="height:12.0pt" height="12">
+          <td class="xl63" style="height:12.0pt;border-top:none"
+            height="12">0x0BE8B500</td>
+          <td class="xl67" style="border-top:none;border-left:none"
+            align="right">1</td>
+          <td class="xl67" style="border-top:none" align="right">10</td>
+          <td class="xl68" style="border-top:none">speed</td>
+          <td class="xl68" style="border-top:none;border-left:none">short</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">16</td>
+          <td class="xl63" style="border-top:none;border-left:none">direction</td>
+          <td class="xl63" style="border-top:none;border-left:none">enum</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">4</td>
+          <td class="xl68" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl68" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">0</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">20</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">3</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">91</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">110</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">9100</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">11000</td>
+        </tr>
+        <tr style="height:12.0pt" height="12">
+          <td class="xl67" style="height:12.0pt;border-top:none"
+            height="12">0x0C4C6400</td>
+          <td class="xl67" style="border-top:none" align="right">4</td>
+          <td class="xl67" style="border-top:none" align="right">10</td>
+          <td class="xl68" style="border-top:none">reversal</td>
+          <td class="xl68" style="border-top:none;border-left:none">boolean</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">1</td>
+          <td class="xl63" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl63" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">0</td>
+          <td class="xl68" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl68" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">0</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">1</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">1</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">75</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">90</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">30000</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">36000</td>
+        </tr>
+        <tr style="height:12.0pt" height="12">
+          <td class="xl67" style="height:12.0pt;border-top:none"
+            height="12">0x0CB01400</td>
+          <td class="xl67" style="border-top:none" align="right">2</td>
+          <td class="xl67" style="border-top:none" align="right">10</td>
+          <td class="xl68" style="border-top:none">LevelSensor</td>
+          <td class="xl68" style="border-top:none;border-left:none">boolean</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">1</td>
+          <td class="xl63" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl63" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">0</td>
+          <td class="xl68" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl68" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">0</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">1</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">1</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">75</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">90</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">15000</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">18000</td>
+        </tr>
+        <tr style="height:12.0pt" height="12">
+          <td class="xl67" style="height:12.0pt;border-top:none"
+            height="12">0x0CB11500</td>
+          <td class="xl67" style="border-top:none" align="right">4</td>
+          <td class="xl67" style="border-top:none" align="right">10</td>
+          <td class="xl68" style="border-top:none">DoorMotor</td>
+          <td class="xl68" style="border-top:none;border-left:none">enum</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">4</td>
+          <td class="xl63" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl63" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">0</td>
+          <td class="xl68" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl68" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">0</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">4</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">1</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">75</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">90</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">30000</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">36000</td>
+        </tr>
+        <tr style="height:12.0pt" height="12">
+          <td class="xl67" style="height:12.0pt;border-top:none"
+            height="12">0x0D141E00</td>
+          <td class="xl67" style="border-top:none" align="right">1</td>
+          <td class="xl67" style="border-top:none" align="right">50</td>
+          <td class="xl68" style="border-top:none">Ebrake</td>
+          <td class="xl68" style="border-top:none;border-left:none">boolean</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">1</td>
+          <td class="xl63" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl63" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">0</td>
+          <td class="xl68" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl68" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">0</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">1</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">1</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">75</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">90</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">1500</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">1800</td>
+        </tr>
+        <tr style="height:12.0pt" height="12">
+          <td class="xl67" style="height:12.0pt;border-top:none"
+            height="12">0x0D782800</td>
+          <td class="xl67" style="border-top:none" align="right">10</td>
+          <td class="xl67" style="border-top:none" align="right">50</td>
+          <td class="xl68" style="border-top:none">atFloor</td>
+          <td class="xl68" style="border-top:none;border-left:none">boolean</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">1</td>
+          <td class="xl63" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl63" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">0</td>
+          <td class="xl68" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl68" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">0</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">1</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">1</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">75</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">90</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">15000</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">18000</td>
+        </tr>
+        <tr style="height:12.0pt" height="12">
+          <td class="xl67" style="height:12.0pt;border-top:none"
+            height="12">0x0DDCB600</td>
+          <td class="xl67" style="border-top:none" align="right">1</td>
+          <td class="xl67" style="border-top:none" align="right">50</td>
+          <td class="xl68" style="border-top:none">floor</td>
+          <td class="xl68" style="border-top:none;border-left:none">int</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">32</td>
+          <td class="xl63" style="border-top:none;border-left:none">hallway</td>
+          <td class="xl63" style="border-top:none;border-left:none">enum</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">16</td>
+          <td class="xl68" style="border-top:none;border-left:none">direction</td>
+          <td class="xl68" style="border-top:none;border-left:none">enum</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">16</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">64</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">8</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">131</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">160</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">2620</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">3200</td>
+        </tr>
+        <tr style="height:12.0pt" height="12">
+          <td class="xl67" style="height:12.0pt;border-top:none"
+            height="12">0x0E40B600</td>
+          <td class="xl67" style="border-top:none" align="right">2</td>
+          <td class="xl67" style="border-top:none" align="right">50</td>
+          <td class="xl68" style="border-top:none">dwell</td>
+          <td class="xl68" style="border-top:none;border-left:none">int</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">32</td>
+          <td class="xl63" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl63" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">0</td>
+          <td class="xl68" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl68" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">0</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">32</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">4</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">99</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">120</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">3960</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">4800</td>
+        </tr>
+        <tr style="height:12.0pt" height="12">
+          <td class="xl67" style="height:12.0pt;border-top:none"
+            height="12">0x0EA43C00</td>
+          <td class="xl67" style="border-top:none" align="right">1</td>
+          <td class="xl67" style="border-top:none" align="right">50</td>
+          <td class="xl68" style="border-top:none">position</td>
+          <td class="xl68" style="border-top:none;border-left:none">int</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">32</td>
+          <td class="xl63" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl63" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">0</td>
+          <td class="xl68" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl68" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">0</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">32</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">4</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">99</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">120</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">1980</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">2400</td>
+        </tr>
+        <tr style="height:12.0pt" height="12">
+          <td class="xl67" style="height:12.0pt;border-top:none"
+            height="12">0x0F08B900</td>
+          <td class="xl67" style="border-top:none" align="right">20</td>
+          <td class="xl67" style="border-top:none" align="right">100</td>
+          <td class="xl68" style="border-top:none">hallCall</td>
+          <td class="xl68" style="border-top:none;border-left:none">boolean</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">1</td>
+          <td class="xl63" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl63" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">0</td>
+          <td class="xl68" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl68" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">0</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">1</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">1</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">75</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">90</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">15000</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">18000</td>
+        </tr>
+        <tr style="height:12.0pt" height="12">
+          <td class="xl67" style="height:12.0pt;border-top:none"
+            height="12">0x0F6C5000</td>
+          <td class="xl67" style="border-top:none" align="right">4</td>
+          <td class="xl67" style="border-top:none" align="right">100</td>
+          <td class="xl68" style="border-top:none">doorClosed</td>
+          <td class="xl68" style="border-top:none;border-left:none">boolean</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">1</td>
+          <td class="xl63" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl63" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">0</td>
+          <td class="xl68" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl68" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">0</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">1</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">1</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">75</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">90</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">3000</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">3600</td>
+        </tr>
+        <tr style="height:12.0pt" height="12">
+          <td class="xl67" style="height:12.0pt;border-top:none"
+            height="12">0x0F6DBA00</td>
+          <td class="xl67" style="border-top:none" align="right">10</td>
+          <td class="xl67" style="border-top:none" align="right">100</td>
+          <td class="xl68" style="border-top:none">carCall</td>
+          <td class="xl68" style="border-top:none;border-left:none">boolean</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">1</td>
+          <td class="xl63" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl63" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">0</td>
+          <td class="xl68" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl68" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">0</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">1</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">1</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">75</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">90</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">7500</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">9000</td>
+        </tr>
+        <tr style="height:12.0pt" height="12">
+          <td class="xl67" style="height:12.0pt;border-top:none"
+            height="12">0x0F6EB400</td>
+          <td class="xl67" style="border-top:none" align="right">2</td>
+          <td class="xl67" style="border-top:none" align="right">200</td>
+          <td class="xl68" style="border-top:none">hoistwayLimit</td>
+          <td class="xl68" style="border-top:none;border-left:none">boolean</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">1</td>
+          <td class="xl63" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl63" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">0</td>
+          <td class="xl68" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl68" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">0</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">1</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">1</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">75</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">90</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">750</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">900</td>
+        </tr>
+        <tr style="height:12.0pt" height="12">
+          <td class="xl67" style="height:12.0pt;border-top:none"
+            height="12">0x0F6FA000</td>
+          <td class="xl67" style="border-top:none" align="right">4</td>
+          <td class="xl67" style="border-top:none" align="right">200</td>
+          <td class="xl68" style="border-top:none">doorOpened</td>
+          <td class="xl68" style="border-top:none;border-left:none">boolean</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">1</td>
+          <td class="xl63" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl63" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">0</td>
+          <td class="xl68" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl68" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">0</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">1</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">1</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">75</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">90</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">1500</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">1800</td>
+        </tr>
+        <tr style="height:12.0pt" height="12">
+          <td class="xl67" style="height:12.0pt;border-top:none"
+            height="12">0x0F707800</td>
+          <td class="xl67" style="border-top:none" align="right">1</td>
+          <td class="xl67" style="border-top:none" align="right">200</td>
+          <td class="xl68" style="border-top:none">carWeight</td>
+          <td class="xl68" style="border-top:none;border-left:none">int</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">32</td>
+          <td class="xl63" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl63" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">0</td>
+          <td class="xl68" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl68" style="border-top:none;border-left:none">n/a</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">0</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">32</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">4</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">99</td>
+          <td class="xl68" style="border-top:none;border-left:none"
+            align="right">120</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">495</td>
+          <td class="xl63" style="border-top:none;border-left:none"
+            align="right">600</td>
+        </tr>
+        <tr style="height:12.0pt" height="12">
+          <td style="height:12.0pt" height="12"><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td class="xl69" style="border-top:none">Total bw</td>
+          <td class="xl70" style="border-top:none;border-left:none"
+            align="right">137405</td>
+          <td class="xl70" style="border-top:none;border-left:none"
+            align="right">165100</td>
+        </tr>
+        <!--EndFragment-->
+      </tbody>
+    </table>
+    <br>
+    <br>
+    Network schedule excel file: <a href="network_schedule.xls">network_schedule.xls</a><br>
+    <br>
+    <h2>Simulation Analysis</h2>
+    Executing proj7acceptance2.pass test (-pf proj7acceptance2.pass -gui
+    -head headfile -b 200), the network uses 55.98% bandwidth which is
+    200 * 55.98% = 111.96 k bits/s. This is true based on our
+    prediction.<br>
+    <br>
+    <table border="1" cellpadding="2" cellspacing="2" width="500">
+      <tbody>
+        <tr>
+          <td colspan="2" rowspan="1" valign="top">Theoretical<br>
+          </td>
+          <td valign="top">Practical<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">Best-case<br>
+          </td>
+          <td valign="top">Worst-case<br>
+          </td>
+          <td valign="top">Practical<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">137405<br>
+          </td>
+          <td valign="top">165100<br>
+          </td>
+          <td valign="top">143560<br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    [Simulation Result]<br>
+    ;18649-Fall-2014<br>
+    ;Group 4<br>
+    ;Zhu Zhang (zhuzhang), Hua Liu (hual1), Howard Lee(hweekeul)<br>
+    <br>
+    <br>
+    Simulator Parameters:<br>
+    Command line = -pf proj7acceptance2.pass -gui -head headfile -b 200
+    -fs 5.0<br>
+    RandomSeed = 1415906106267<br>
+    CanNetworkBitTime = 5000 ns<br>
+    Effective Can Bitrate = 199999.99999999997<br>
+    Run Time = null<br>
+    Real time rate = null<br>
+    Acceptance Test File = proj7acceptance2.pass<br>
+    <br>
+    <br>
+    [Elevator] @0.000000000: Starting Simulation<br>
+    [Elevator] @60.000000000: Progress indicator<br>
+    [Elevator] @120.000000000: Progress indicator<br>
+    [Elevator] @180.000000000: Progress indicator<br>
+    [Elevator] @240.000000000: Progress indicator<br>
+    [Elevator] @300.000000000: Progress indicator<br>
+    [Elevator] @360.000000000: Progress indicator<br>
+    [Elevator] @420.000000000: Progress indicator<br>
+    [Elevator] @480.000000000: Progress indicator<br>
+    [Elevator] @540.000000000: Progress indicator<br>
+    [Elevator] @600.000000000: Progress indicator<br>
+    [Elevator] @660.000000000: Progress indicator<br>
+    [Elevator] @720.000000000: Progress indicator<br>
+    [Elevator] @780.000000000: Progress indicator<br>
+    [Elevator] @840.000000000: Progress indicator<br>
+    [Elevator] @865.603000000: Simulation Finished<br>
+    <br>
+    Network Utilization Summary:<br>
+    Recent: 71.78 % Max: 71.78 %&nbsp; Overall:&nbsp; 71.78 %<br>
+    <br>
+    STATISTICS FOR ELEVATOR SIMULATION PASSENGER DELIVERY<br>
+    -----------------------------------------------------<br>
+    <br>
+    <br>
+    Passenger Delivery Summary<br>
+    Delivered: 51<br>
+    Stranded: 0<br>
+    Total: 51<br>
+    <br>
+    Deliver Stats (lower is better):<br>
+    Average_delivery_time: 81.712<br>
+    Maximum_delivery_time:&nbsp; 185.977<br>
+    Delivery_performance_score:&nbsp; 512.826<br>
+    <br>
+    Satisfaction Stats (higher is better):<br>
+    Average_satisfaction_score: 100.000<br>
+    Min_satisfaction_score:&nbsp; 100.000<br>
+    Satisfaction_performance_score:&nbsp; 500.000<br>
+    <br>
+    <br>
+    <br>
+    865.603s simulation seconds<br>
+    &nbsp;11.756 real seconds<br>
+    &nbsp;effective rate 73.63<br>
+    <br>
+  </body>
+</html>

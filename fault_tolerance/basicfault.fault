@@ -1,0 +1,2 @@
+; drops 50% of messages no message is dropped two times in a row
+Network DropMessages 50

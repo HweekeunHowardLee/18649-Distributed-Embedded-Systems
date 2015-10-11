@@ -1,0 +1,7 @@
+; group #4
+; Zhu Zhang (zhuzhang), Hua Liu (hual1), Howard Lee (hweekeul)
+; Integration Test for Sequence Diagram 3B
+; Hua Liu
+; Last modified 2014-10-14
+; sd3b1.cf
+DoorControl FRONT RIGHT 0.1s TRUE

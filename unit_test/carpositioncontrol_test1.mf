@@ -1,0 +1,81 @@
+; 18649 2014 Fall
+; group #4
+; Zhu Zhang (zhuzhang), Hua Liu (hual1), Howard Lee (hweekeul)
+; carpositioncontrol_test1.mf
+
+#INCLUDE defines.mf ;include CAN id and period definitions
+#DEFINE MESSAGE_PERIOD 100ms
+
+;intialize
+0s I MESSAGE_PERIOD N CAR_LEVEL_POSITION_CAN_ID CarLevelPosition = 0
+0s I MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 2 UP BACK
+0s I MESSAGE_PERIOD N DRIVE_SPEED_CAN_ID DriveSpeed = 0 STOP
+0s I MESSAGE_PERIOD N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = true
+
+;check Drive initial state
++0.21s A F CarPositionIndicator : floor == 1
+
+;set another floor
+;#transition 'CPCT1'
++0.1s I MESSAGE_PERIOD N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = false
++0.1s I MESSAGE_PERIOD N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = true
++0s I MESSAGE_PERIOD N CAR_LEVEL_POSITION_CAN_ID CarLevelPosition = 5000
++0s I MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 3 UP FRONT
++0s I MESSAGE_PERIOD N DRIVE_SPEED_CAN_ID DriveSpeed = 0 STOP
+
+;check
++0.21s A F CarPositionIndicator : floor == 2
+
+;set another floor
+;#transition 'CPCT1'
++0.1s I MESSAGE_PERIOD N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = false
++0.1s I MESSAGE_PERIOD N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = true
++0s I MESSAGE_PERIOD N CAR_LEVEL_POSITION_CAN_ID CarLevelPosition = 10000
+
+;check
++0.21s A F CarPositionIndicator : floor == 3
+
+;set another floor
+;#transition 'CPCT1'
++0.1s I MESSAGE_PERIOD N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = false
++0.1s I MESSAGE_PERIOD N AT_FLOOR_[4][FRONT]_CAN_ID AtFloor 4 FRONT = true
++0s I MESSAGE_PERIOD N CAR_LEVEL_POSITION_CAN_ID CarLevelPosition = 15000
+
+;check
++0.21s A F CarPositionIndicator : floor == 4
+
+;set another floor
+;#transition 'CPCT1'
++0.1s I MESSAGE_PERIOD N AT_FLOOR_[4][FRONT]_CAN_ID AtFloor 4 FRONT = false
++0.1s I MESSAGE_PERIOD N AT_FLOOR_[5][FRONT]_CAN_ID AtFloor 5 FRONT = true
++0s I MESSAGE_PERIOD N CAR_LEVEL_POSITION_CAN_ID CarLevelPosition = 20000
+
+;check
++0.21s A F CarPositionIndicator : floor == 5
+
+;set another floor
+;#transition 'CPCT1'
++0.1s I MESSAGE_PERIOD N AT_FLOOR_[5][FRONT]_CAN_ID AtFloor 5 FRONT = false
++0.1s I MESSAGE_PERIOD N AT_FLOOR_[6][FRONT]_CAN_ID AtFloor 6 FRONT = true
++0s I MESSAGE_PERIOD N CAR_LEVEL_POSITION_CAN_ID CarLevelPosition = 25000
+
+;check
++0.21s A F CarPositionIndicator : floor == 6
+
+;set another floor
+;#transition 'CPCT1'
++0.1s I MESSAGE_PERIOD N AT_FLOOR_[6][FRONT]_CAN_ID AtFloor 6 FRONT = false
++0.1s I MESSAGE_PERIOD N AT_FLOOR_[7][BACK]_CAN_ID AtFloor 7 BACK = true
++0s I MESSAGE_PERIOD N CAR_LEVEL_POSITION_CAN_ID CarLevelPosition = 30000
+
+;check
++0.21s A F CarPositionIndicator : floor == 7
+
+;set another floor
+;#transition 'CPCT1'
++0.1s I MESSAGE_PERIOD N AT_FLOOR_[7][BACK]_CAN_ID AtFloor 7 BACK = false
++0.1s I MESSAGE_PERIOD N AT_FLOOR_[8][FRONT]_CAN_ID AtFloor 8 FRONT = true
++0s I MESSAGE_PERIOD N CAR_LEVEL_POSITION_CAN_ID CarLevelPosition = 35000
+
+;check
++0.21s A F CarPositionIndicator : floor == 8

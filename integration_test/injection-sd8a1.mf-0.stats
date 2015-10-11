@@ -1,0 +1,31 @@
+;18649-Fall-2014
+;Group 4
+;Zhu Zhang (zhuzhang), Hua Liu (hual1), Howard Lee(hweekeul)
+
+Simulator Parameters:
+Command line = -cf sd8a1.cf -mf sd8a1.mf -head headfile -rt 1s
+RandomSeed = 1416848341433
+CanNetworkBitTime = 0 ns
+Effective Can Bitrate = Infinity
+Run Time = 1.0s
+Real time rate = null
+Message File = sd8a1.mf
+Controller File = sd8a1.cf
+
+Assertion Results:
+@0.11s:  PASSED DoorControl[FRONT][RIGHT]::checkState(STATE) ?== STATE_DOOR_CLOSED PASSED
+@0.31s:  PASSED DoorControl[FRONT][RIGHT]::checkState(STATE) ?== STATE_DOOR_OPENING PASSED
+@0.51s:  PASSED DoorControl[FRONT][RIGHT]::checkState(STATE) ?== STATE_DOOR_OPENED PASSED
+@5.51s:  PASSED DoorControl[FRONT][RIGHT]::checkState(STATE) ?== STATE_DOOR_CLOSING PASSED
+@5.52s:  PASSED HallButtonControl[4][FRONT][DOWN]::checkState(STATE) ?== STATE_HALL_LIGHT_OFF PASSED
+@5.72s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@355da254 :: command ?== CLOSE PASSED
+@5.91s:  PASSED HallButtonControl[4][FRONT][DOWN]::checkState(STATE) ?== STATE_HALL_LIGHT_ON PASSED
+@6.11s:  PASSED simulator.payloads.HallLightPayload$ReadableHallLightPayload@6ff3c5b5 :: lighted ?== true PASSED
+@6.31s:  PASSED DoorControl[FRONT][RIGHT]::checkState(STATE) ?== STATE_DOOR_CLOSED PASSED
+
+
+******************Summary******************
+Passed:  9
+Failed:  0
+Total :  9
+

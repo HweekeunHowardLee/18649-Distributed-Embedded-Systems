@@ -1,0 +1,58 @@
+; 18649 Fall 2014
+; group 4
+; Zhu Zhang(zhuzhang), Hua Liu(hua1), Howard Lee(hweekul)
+; lanterncontrol.mf
+
+#INCLUDE defines.mf
+#DEFINE MESSAGE_PERIOD 0.1s
+
+;Precondition
+;State 1: Lantern Off
+0s  I  MESSAGE_PERIOD N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = true 
+0s  I  MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 4 UP FRONT
+0s  I  MESSAGE_PERIOD N	DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
+0s  I  MESSAGE_PERIOD N	DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
+0s  I  MESSAGE_PERIOD N	DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = true
+0s  I  MESSAGE_PERIOD N	DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = true
+
+;State 1: Lantern Off
+1.0s  A  F CarLantern UP : lighted == false
+1.0s  A  F CarLantern DOWN : lighted == false
+1.0s  A  S  LanternControl[UP] : STATE == STATE_LANTERN_OFF
+
+;#transition 'LCT1' but no complete. Additional test is performed before all conditions are satisfied
+1s  I  MESSAGE_PERIOD N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = false
+2s  I  MESSAGE_PERIOD N AT_FLOOR_[4][FRONT]_CAN_ID AtFloor 4 FRONT = true 
+
+;The car is at the desired floor.  However, the door has not opened up yet.  Therefore it should still be off.
+3.0s  A  F CarLantern UP : lighted == false
+3.0s  A  F CarLantern DOWN : lighted == false
+3.0s  A  S  LanternControl[UP] : STATE == STATE_LANTERN_OFF
+
+;#transition 'LCT1' Door Opens
+3.5s  I  MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = false
+
+;State 2: Lantern On
+4.2s  A  F CarLantern UP : lighted == true
+4.2s  A  F CarLantern DOWN : lighted == false
+4.2s  A  S LanternControl[UP] : STATE == STATE_LANTERN_ON
+
+;State 1: Lantern Off 
+;#transition 'LCT2'(The Door Closes to move to another floor)
+4.3s  I  MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
+
+;#transition 'LCT1' not complete. 
+4.5s  I  MESSAGE_PERIOD N AT_FLOOR_[4][FRONT]_CAN_ID AtFloor 4 FRONT = false
+5.0s  I  MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 5 DOWN FRONT
+5.0s  I  MESSAGE_PERIOD N AT_FLOOR_[5][FRONT]_CAN_ID AtFloor 5 FRONT = true
+
+;When a door opens, the down lantern should be turned on.
+;#transition 'LCT1' Satisfied.  This time with down lantern.
+5.2s  I  MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = false
+
+;Only down lantern should be on.
+;State 2: Lantern On.
+6.8s  A  F CarLantern UP : lighted == false
+6.8s  A  F CarLantern DOWN : lighted == true
+6.8s  A  S  LanternControl[UP] : STATE == STATE_LANTERN_OFF
+6.8s  A  S  LanternControl[DOWN] : STATE == STATE_LANTERN_ON

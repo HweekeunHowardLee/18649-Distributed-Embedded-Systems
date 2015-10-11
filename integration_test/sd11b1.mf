@@ -1,0 +1,43 @@
+; group #4
+; Zhu Zhang (zhuzhang), Hua Liu (hual1), Howard Lee (hweekeul)
+; Unit test for HallButtonControl
+; Hua Liu
+; Last modified 2014-10-09
+; sd11b1.mf
+
+#INCLUDE defines.mf ;include CAN id and period definitions
+#DEFINE MESSAGE_PERIOD 0.1s
+
+;Initialization
+0s I MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 4 STOP FRONT
+0s I MESSAGE_PERIOD N AT_FLOOR_[4][FRONT]_CAN_ID AtFloor 4 FRONT = True
+0s I MESSAGE_PERIOD N HALL_CALL_[4][FRONT][UP]_CAN_ID EfficientBoolean = False
+0s I MESSAGE_PERIOD N CAR_CALL_[4][FRONT]_CAN_ID EfficientBoolean = False
+
+; This condition was given in order to test the hall call despite the flickering of it when door is open.
+0s I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
+0s I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
+0s I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = true
+0s I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = true
+
+
+;#arc '11A/1a'
+1s I MESSAGE_PERIOD F HallCall 4 FRONT UP = True
+1.4s I MESSAGE_PERIOD F HallCall 4 FRONT UP = False
+
+;#arc '11A/1b'
+1s I MESSAGE_PERIOD N HALL_CALL_[4][FRONT][UP]_CAN_ID EfficientBoolean = True
+1.6s I MESSAGE_PERIOD N HALL_CALL_[4][FRONT][UP]_CAN_ID EfficientBoolean = False
+1.1s A N HALL_CALL_[4][FRONT][UP]_CAN_ID EfficientBoolean : getValue == True
+
+;#arc '11A/1c'
+1.4s I MESSAGE_PERIOD F HallLight 4 FRONT UP = TRUE 
+1.5s A S HallButtonControl[4][FRONT][UP] : STATE == STATE_HALL_LIGHT_ON
+
+;#arc '11A/2a'
+2.0s I MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 6 UP FRONT
+2.0s I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID EfficientBoolean = False
+
+;#arc '11A/2b'
+2.2s A S LanternControl[UP] : STATE == STATE_LANTERN_ON
+

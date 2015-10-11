@@ -1,0 +1,6 @@
+; 18649 Fall 2014
+; group 4
+; Zhu Zhang(zhuzhang), Hua Liu(hua1), Howard Lee(hweekul)
+; sd7b.cf
+
+DoorControl FRONT LEFT 0.1s TRUE

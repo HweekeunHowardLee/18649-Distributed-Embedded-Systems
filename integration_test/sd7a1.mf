@@ -1,0 +1,53 @@
+; 18649 Fall 2014
+; group 4
+; Zhu Zhang(zhuzhang), Hua Liu(hua1), Howard Lee(hweekul)
+; sd7a.mf
+
+#INCLUDE defines.mf
+#DEFINE MESSAGE_PERIOD 0.1s
+
+
+;preconditions
+;All doors are closed
+0s  I  MESSAGE_PERIOD N	DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = false
+0s  I  MESSAGE_PERIOD N	DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = false
+0s  I  MESSAGE_PERIOD N	DOOR_OPEN_SENSOR_[BACK][LEFT]_CAN_ID DoorOpened BACK LEFT = false
+0s  I  MESSAGE_PERIOD N	DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID DoorOpened BACK RIGHT = false
+
+0s  I  MESSAGE_PERIOD N	DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
+0s  I  MESSAGE_PERIOD N	DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
+0s  I  MESSAGE_PERIOD N	DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = true
+0s  I  MESSAGE_PERIOD N	DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = true
+
+0s  I  MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 3 UP FRONT
+
+;#arc '7A/1a', '7A/2a'
+;The Elevator at 3rd floor, front hallway is received as true both by LanternControl and DoorControl  
+0.1s  I  MESSAGE_PERIOD N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = true
+0.1s  I  MESSAGE_PERIOD N DRIVE_SPEED_CAN_ID DriveSpeed = 0 STOP
+0.1s  I  MESSAGE_PERIOD N HALL_CALL_[3][FRONT][UP]_CAN_ID EfficientBoolean = true
+
+
+;#arc '7A/2b'
+;The DoorControl commands the door to open.
+;Check whether door is opening.
+0.21s  A  S DoorControl[FRONT][LEFT] : STATE == STATE_DOOR_OPENING
+0.51s  A  F DoorMotor FRONT LEFT : command == OPEN
+
+;#arc '7A/3a'
+;Door is not closed.  Lantern should be turned on then.
+0.6s  I  MESSAGE_PERIOD N	DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = false
+
+;The hall light is commanded to be on.
+;Checks whether car light is on.
+1.2s  A  F CarLantern UP : lighted == true
+1.2s  A  S  LanternControl[UP] : STATE == STATE_LANTERN_ON
+
+;#arc '7A/4a'
+;Door is opened all the way.
+1.4s  I  MESSAGE_PERIOD N	DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = true
+
+;#arc '7A/4b'
+;Check on whether door motor has been ordered to stop.
+1.8s  A  F DoorMotor FRONT LEFT : command == STOP
+

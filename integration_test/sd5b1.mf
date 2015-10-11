@@ -1,0 +1,44 @@
+; group #4
+; Zhu Zhang (zhuzhang), Hua Liu (hual1), Howard Lee (hweekeul)
+; Unit test for HallButtonControl
+; Hua Liu
+; Last modified 2014-10-09
+; sd5a1.mf
+
+#INCLUDE defines.mf ;include CAN id and period definitions
+#DEFINE MESSAGE_PERIOD 0.1s
+
+;initialize
+;at State 1 (Door closed)
+0s I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
+0.51s A S DoorControl[FRONT][RIGHT] : STATE == STATE_DOOR_CLOSED
+
+;switch to State 2 (Door opening)
+0.61s I MESSAGE_PERIOD N AT_FLOOR_[4][FRONT]_CAN_ID AtFloor 4 FRONT = true
+0.61s I MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 4 STOP FRONT
+0.61s I MESSAGE_PERIOD N CAR_CALL_[4][FRONT]_CAN_ID EfficientBoolean = True
+1.01s A S DoorControl[FRONT][RIGHT] : STATE == STATE_DOOR_OPENING
+1.01s I MESSAGE_PERIOD N CAR_CALL_[4][FRONT]_CAN_ID EfficientBoolean = False
+
+
+;switch to State 3 (Door opened)
+1.11s I MESSAGE_PERIOD N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = true
+1.61s A S DoorControl[FRONT][RIGHT] : STATE == STATE_DOOR_OPENED
+
+;switch to State 4 (Door closing)
+;#arc '5A/1'
+6.31s A S DoorControl[FRONT][RIGHT] : STATE == STATE_DOOR_CLOSING
+
+;Door reversal triggered
+;#arc '5A/2b'
+6.32s I MESSAGE_PERIOD N DOOR_REVERSAL_SENSOR_[FRONT][RIGHT]_CAN_ID DoorReversal FRONT RIGHT = true
+
+;switch to State 2 (Door opening)
+;#arc '5A/3'
+6.51s A S DoorControl[FRONT][RIGHT] : STATE == STATE_DOOR_OPENING
+
+;switch to State 3 (Door opened)
+;#arc '5A/4a'
+6.60s I MESSAGE_PERIOD N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = true
+;#arc '5A/4b'
+6.61s A S DoorControl[FRONT][RIGHT] : STATE == STATE_DOOR_OPENED

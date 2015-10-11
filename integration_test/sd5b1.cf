@@ -1,0 +1,7 @@
+; group #4
+; Zhu Zhang (zhuzhang), Hua Liu (hual1), Howard Lee (hweekeul)
+; Unit test for HallButtonControl
+; Hua Liu
+; Last modified 2014-10-09
+; sd5a1.cf
+DoorControl FRONT RIGHT 0.1s TRUE

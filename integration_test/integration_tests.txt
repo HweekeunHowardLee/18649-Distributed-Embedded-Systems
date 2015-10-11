@@ -1,0 +1,21 @@
+;18649-Fall-2014
+;Group 4
+;Zhu Zhang (zhuzhang), Hua Liu (hual1), Howard Lee(hweekeul)
+
+SD1A.1 sd1a1.cf sd1a1.mf
+SD1B.1 sd1b1.cf sd1b1.mf
+SD1C.1 sd1c1.cf sd1c1.mf
+SD2A.1 sd2a1.cf sd2a1.mf
+SD2B.1 sd2b1.cf sd2b1.mf
+SD3A.1 sd3a1.cf sd3a1.mf
+SD3B.1 sd3b1.cf sd3b1.mf
+SD4A.1 sd4a1.cf sd4a1.mf
+SD5A.1 sd5a1.cf sd5a1.mf
+SD5B.1 sd5b1.cf sd5b1.mf
+SD6A.1 sd6a1.cf sd6a1.mf
+SD7A.1 sd7a1.cf sd7a1.mf
+SD7B.1 sd7b1.cf sd7b1.mf
+SD7C.1 sd7c1.cf sd7c1.mf
+SD8A.1 sd8a1.cf sd8a1.mf
+SD8B.1 sd8b1.cf sd8b1.mf
+SD9A.1 sd9a1.cf sd9a1.mf

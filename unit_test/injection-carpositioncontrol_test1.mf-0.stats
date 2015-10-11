@@ -1,0 +1,30 @@
+;18649-Fall-2014
+;Group 4
+;Zhu Zhang (zhuzhang), Hua Liu (hual1), Howard Lee(hweekeul)
+
+Simulator Parameters:
+Command line = -cf carpositioncontrol.cf -mf carpositioncontrol_test1.mf -head headfile -rt 1s
+RandomSeed = 1418004672642
+CanNetworkBitTime = 0 ns
+Effective Can Bitrate = Infinity
+Run Time = 1.0s
+Real time rate = null
+Message File = carpositioncontrol_test1.mf
+Controller File = carpositioncontrol.cf
+
+Assertion Results:
+@0.21s:  PASSED simulator.payloads.CarPositionIndicatorPayload$ReadableCarPositionIndicatorPayload@4b1210ee :: floor ?== 1 PASSED
+@0.62s:  PASSED simulator.payloads.CarPositionIndicatorPayload$ReadableCarPositionIndicatorPayload@3cd1a2f1 :: floor ?== 2 PASSED
+@1.03s:  PASSED simulator.payloads.CarPositionIndicatorPayload$ReadableCarPositionIndicatorPayload@7440e464 :: floor ?== 3 PASSED
+@1.44s:  PASSED simulator.payloads.CarPositionIndicatorPayload$ReadableCarPositionIndicatorPayload@78308db1 :: floor ?== 4 PASSED
+@1.85s:  PASSED simulator.payloads.CarPositionIndicatorPayload$ReadableCarPositionIndicatorPayload@5451c3a8 :: floor ?== 5 PASSED
+@2.26s:  PASSED simulator.payloads.CarPositionIndicatorPayload$ReadableCarPositionIndicatorPayload@5a07e868 :: floor ?== 6 PASSED
+@2.67s:  PASSED simulator.payloads.CarPositionIndicatorPayload$ReadableCarPositionIndicatorPayload@2c7b84de :: floor ?== 7 PASSED
+@3.08s:  PASSED simulator.payloads.CarPositionIndicatorPayload$ReadableCarPositionIndicatorPayload@5acf9800 :: floor ?== 8 PASSED
+
+
+******************Summary******************
+Passed:  8
+Failed:  0
+Total :  8
+

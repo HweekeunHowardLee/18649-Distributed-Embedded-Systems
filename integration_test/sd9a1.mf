@@ -1,0 +1,61 @@
+; group #4
+; Zhu Zhang (zhuzhang), Hua Liu (hual1), Howard Lee (hweekeul)
+; Unit test for HallButtonControl
+; Hua Liu
+; Last modified 2014-10-09
+; sd9a1.mf
+
+#INCLUDE defines.mf ;include CAN id and period definitions
+#DEFINE MESSAGE_PERIOD 0.1s
+
+;initialize
+;dispatcher
+0s I MESSAGE_PERIOD N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = true
+0s I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
+0s I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
+0s I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = true
+0s I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = true
+;doorControl
+;0s I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
+
+;dispatcher at State 1 (Idle)
+0.11s A S Dispatcher : STATE == STATE_DOOR_CLOSE
+
+;doorControl at State 1 (Door closed)
+0.11s A S DoorControl[FRONT][RIGHT] : STATE == STATE_DOOR_CLOSED
+
+;doorControl switch to State 2 (Door opening)
+;#arc '9A/1a'
+0.12s I MESSAGE_PERIOD N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = true
+0.12s I MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 1 STOP FRONT
+0.12s  I MESSAGE_PERIOD N HALL_CALL_[1][FRONT][UP]_CAN_ID EfficientBoolean = True
+0.41s  I MESSAGE_PERIOD N HALL_CALL_[1][FRONT][UP]_CAN_ID EfficientBoolean = False
+0.41s A S DoorControl[FRONT][RIGHT] : STATE == STATE_DOOR_OPENING
+;#arc '9A/1b'
+1.02s I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = false
+1.02s I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = false
+1.02s I MESSAGE_PERIOD N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = true
+1.02s I  MESSAGE_PERIOD N HALL_CALL_[1][FRONT][UP]_CAN_ID EfficientBoolean = false
+;#arc '9A/2'
+;1.31s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 3
+1.12s I MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 2 STOP FRONT
+1.31s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 2
+1.31s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == FRONT
+1.31s A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
+;#arc '9A/3a'
+1.33s I MESSAGE_PERIOD N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = true
+
+;doorControl switch to State 3 (Door opened)
+;#arc '9A/3b'
+1.7s A F DoorMotor FRONT RIGHT : command == STOP
+
+;doorControl switch to State 4 (Door closing)
+;#arc '9A/4'
+6.8s A F DoorMotor FRONT RIGHT : command == CLOSE
+
+;#arc '9A/5a'
+8.5s I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
+8.5s I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
+
+;#arc '9A/5b'
+9.0s A F DoorMotor FRONT RIGHT : command == STOP

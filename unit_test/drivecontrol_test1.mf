@@ -1,0 +1,232 @@
+; 18649 2014 Fall
+; group #4
+; Zhu Zhang (zhuzhang), Hua Liu (hual1), Howard Lee (hweekeul)
+; drivecontrol_test1.mf
+
+#INCLUDE defines.mf ;include CAN id and period definitions
+#DEFINE MESSAGE_PERIOD 100ms
+
+;intialize
+0s I MESSAGE_PERIOD F DriveSpeed = STOP 0
+0s I MESSAGE_PERIOD N LEVEL_SENSOR_[UP]_CAN_ID Leveling UP = true
+0s I MESSAGE_PERIOD N LEVEL_SENSOR_[DOWN]_CAN_ID Leveling DOWN = true
+
+;check Drive initial state
++0.21s A F Drive : direction == STOP
++0.0s  A F Drive : speed == STOP
+;+0.0s  A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == STOP
+;+0.0s  A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == STOP
++0.0s  A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == STOP
++0.0s  A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed == 0
+
+;#transition 'DrC2'
++0.1s  I  MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
++0.0s  I  MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = true
++0.0s  I  MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
++0.0s  I  MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = true
++0.0s  I  MESSAGE_PERIOD F DriveSpeed = UP 0.25
++0.0s  I  MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 3 STOP FRONT
++0.0s  I  MESSAGE_PERIOD N CAR_LEVEL_POSITION_CAN_ID CarLevelPosition = 9800
++0.0s  I  MESSAGE_PERIOD N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotorCommand FRONT LEFT = STOP
++0.0s  I  MESSAGE_PERIOD N DOOR_MOTOR_COMMAND_[FRONT][RIGHT]_CAN_ID DoorMotorCommand FRONT RIGHT = STOP
++0.0s  I  MESSAGE_PERIOD N DOOR_MOTOR_COMMAND_[BACK][LEFT]_CAN_ID DoorMotorCommand BACK LEFT = STOP
++0.0s  I  MESSAGE_PERIOD N DOOR_MOTOR_COMMAND_[BACK][RIGHT]_CAN_ID DoorMotorCommand BACK RIGHT = STOP
+
+;#state 'S3 Slow Up'
++0.21s A F Drive : direction == UP
++0.0s  A F Drive : speed == SLOW
+;+0.0s  A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == UP
+;+0.0s  A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == SLOW
++0.0s  A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == UP
++0.0s  A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed == 0.25
+
+;#transition 'DrC13'
++0.1s  I  MESSAGE_PERIOD F DriveSpeed = UP 0.25
++0.0s  I  MESSAGE_PERIOD N CAR_LEVEL_POSITION_CAN_ID CarLevelPosition = 0
++0.5S  I  MESSAGE_PERIOD F DriveSpeed = UP 1
+
+;#state 'S7 Fast Up'
++1.0s  A F Drive : direction == UP
++0.0s  A F Drive : speed == FAST
+;+0.0s  A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == UP
+;+0.0s  A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == FAST
++0.0s  A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == UP
++0.0s  A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed == 1
+
+;#transition 'DrC14'
++0.1s I MESSAGE_PERIOD N CAR_LEVEL_POSITION_CAN_ID CarLevelPosition = 9800
++0.0s I MESSAGE_PERIOD F DriveSpeed = UP 0.25
+
+;#state 'S3 Slow Up'
++1.0s  A F Drive : direction == UP
++0.0s  A F Drive : speed == SLOW
+;+0.0s  A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == UP
+;+0.0s  A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == SLOW
++0.0s  A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == UP
++0.0s  A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed == 0.25
+
+;#transition 'DrC1'
++0.1s I MESSAGE_PERIOD N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = true
++0.0s I MESSAGE_PERIOD F DriveSpeed = UP 0.05
++0.0s I MESSAGE_PERIOD N LEVEL_SENSOR_[UP]_CAN_ID Leveling UP = false
+
+;#state 'S4 Level Up'
++0.21s A F Drive : direction == UP
++0.0s  A F Drive : speed == LEVEL
+;+0.0s  A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == UP
+;+0.0s  A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == LEVEL
++0.0s  A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == UP
++0.0s  A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed == 0.05
+
+;#transition 'DrC5'
++0.1s I MESSAGE_PERIOD N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = true
++0.0s I MESSAGE_PERIOD F DriveSpeed = STOP 0
++0.0s I MESSAGE_PERIOD N LEVEL_SENSOR_[UP]_CAN_ID Leveling UP = true
+
+;#state 'S1 Stop'
++0.21s A F Drive : direction == STOP
++0.0s  A F Drive : speed == STOP
+;+0.0s  A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == STOP
+;+0.0s  A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == STOP
++0.0s  A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == STOP
++0.0s  A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed == 0
+
+;#transition 'DrC3'
++0.1s  I  MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
++0.0s  I  MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = true
++0.0s  I  MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
++0.0s  I  MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = true
++0.0s  I  MESSAGE_PERIOD F DriveSpeed = DOWN 0.25
++0.0s  I  MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 1 STOP FRONT
++0.0s  I  MESSAGE_PERIOD N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = false
++0.0s  I  MESSAGE_PERIOD N CAR_LEVEL_POSITION_CAN_ID CarLevelPosition = 200
+
+;#state 'S2 Slow Down'
++0.21s A F Drive : direction == DOWN
++0.0s  A F Drive : speed == SLOW
+;+0.0s  A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == DOWN
+;+0.0s  A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == SLOW
++0.0s  A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == DOWN
++0.0s  A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed == 0.25
+
+;#transition 'DrC11'
++0.1s I MESSAGE_PERIOD N CAR_LEVEL_POSITION_CAN_ID CarLevelPosition = 10000
++0.5s I MESSAGE_PERIOD F DriveSpeed = DOWN 1
+
+;#state 'S6 Fast Down'
++1.0s  A F Drive : direction == DOWN
++0.0s  A F Drive : speed == FAST
+;+0.0s  A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == DOWN
+;+0.0s  A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == FAST
++0.0s  A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == DOWN
++0.0s  A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed == 1
+
+;#transition 'DrC12'
++0.1s I MESSAGE_PERIOD N CAR_LEVEL_POSITION_CAN_ID CarLevelPosition = 200
++0.5s I MESSAGE_PERIOD F DriveSpeed = DOWN 0.25
+
+;#state 'S2 Slow Down'
++1.0s  A F Drive : direction == DOWN
++0.0s  A F Drive : speed == SLOW
+;+0.0s  A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == DOWN
+;+0.0s  A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == SLOW
++0.0s  A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == DOWN
++0.0s  A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed == 0.25
+
+;#transition 'DrC4'
++0.1s I MESSAGE_PERIOD N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = true
++0.0s I MESSAGE_PERIOD F DriveSpeed = DOWN 0.05
++0.0s I MESSAGE_PERIOD N LEVEL_SENSOR_[DOWN]_CAN_ID Leveling DOWN = false
+
+;#state 'S5 Level Down'
++0.21s A F Drive : direction == DOWN
++0.0s  A F Drive : speed == LEVEL
+;+0.0s  A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == DOWN
+;+0.0s  A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == LEVEL
++0.0s  A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == DOWN
++0.0s  A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed == 0.05
+
+;#transition 'DrC6'
++0.1s I MESSAGE_PERIOD N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = true
++0.0s I MESSAGE_PERIOD F DriveSpeed = STOP 0
++0.0s I MESSAGE_PERIOD N LEVEL_SENSOR_[DOWN]_CAN_ID Leveling DOWN = true
+
+;#state 'S1 Stop'
++0.21s A F Drive : direction == STOP
++0.0s  A F Drive : speed == STOP
+;+0.0s  A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == STOP
+;+0.0s  A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == STOP
++0.0s  A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == STOP
++0.0s  A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed == 0
+
+;#transition 'DrC7'
++0.1s  I  MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
++0.0s  I  MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = true
++0.0s  I  MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
++0.0s  I  MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = true
++0.0s  I  MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 3 STOP FRONT
+
+;use BooleanCanPayloadTranslator for mEmergencyBrake
++0.21s I MESSAGE_PERIOD N EMERGENCY_BRAKE_CAN_ID EfficientBoolean = true
+
+;#state 'S1 Stop'
++0.21s A F Drive : direction == STOP
++0.0s  A F Drive : speed == STOP
+;+0.0s  A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == STOP
+;+0.0s  A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == STOP
++0.0s  A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == STOP
++0.0s  A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed == 0
+
+;#transition 'DrC8'
++0.1s  I  MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
++0.0s  I  MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = true
++0.0s  I  MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
++0.0s  I  MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = true
++0.0s  I  MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 1 STOP FRONT
++0.0s  I  MESSAGE_PERIOD N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = false
++0.1s  I  MESSAGE_PERIOD N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = true
+
+;use BooleanCanPayloadTranslator for mEmergencyBrake
++0.21s I MESSAGE_PERIOD N EMERGENCY_BRAKE_CAN_ID EfficientBoolean = true
+
+;#state 'S1 Stop'
++0.21s A F Drive : direction == STOP
++0.0s  A F Drive : speed == STOP
+;+0.0s  A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == STOP
+;+0.0s  A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == STOP
++0.0s  A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == STOP
++0.0s  A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed == 0
+
+;#transition 'DrC9'
++0.1s  I  MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
++0.0s  I  MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = true
++0.0s  I  MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
++0.0s  I  MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = true
++0.0s  I  MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 3 STOP FRONT
++0.0s  I  MESSAGE_PERIOD N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = false
++0.1s  I  MESSAGE_PERIOD N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = true
++0.0s  I  MESSAGE_PERIOD F DriveSpeed = UP 0.05
+
++0.1s I MESSAGE_PERIOD N EMERGENCY_BRAKE_CAN_ID Boolean = false
++0.0s I MESSAGE_PERIOD N LEVEL_SENSOR_[UP]_CAN_ID Leveling UP = false
+
+;#state 'S4 Level Up'
++0.21s A F Drive : direction == UP
++0.0s  A F Drive : speed == LEVEL
+;+0.0s  A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == UP
+;+0.0s  A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == LEVEL
++0.0s  A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == UP
++0.0s  A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed == 0.05
+
+;#transition 'DrC10'
++0.0s  I  MESSAGE_PERIOD F DriveSpeed = DOWN 0.05
++0.0s I MESSAGE_PERIOD N LEVEL_SENSOR_[UP]_CAN_ID Leveling UP = true
++0.0s I MESSAGE_PERIOD N LEVEL_SENSOR_[DOWN]_CAN_ID Leveling DOWN = false
+
+;#state 'S5 Level Down'
++0.21s A F Drive : direction == DOWN
++0.0s  A F Drive : speed == LEVEL
+;+0.0s  A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == DOWN
+;+0.0s  A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == LEVEL
++0.0s  A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == DOWN
++0.0s  A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed == 0.05

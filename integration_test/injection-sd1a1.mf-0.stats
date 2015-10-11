@@ -1,0 +1,23 @@
+;18649-Fall-2014
+;Group 4
+;Zhu Zhang (zhuzhang), Hua Liu (hual1), Howard Lee(hweekeul)
+
+Simulator Parameters:
+Command line = -cf sd1a1.cf -mf sd1a1.mf -head headfile -rt 1s
+RandomSeed = 1416848337203
+CanNetworkBitTime = 0 ns
+Effective Can Bitrate = Infinity
+Run Time = 1.0s
+Real time rate = null
+Message File = sd1a1.mf
+Controller File = sd1a1.cf
+
+Assertion Results:
+@0.61s:  PASSED simulator.payloads.HallLightPayload$ReadableHallLightPayload@5cad8086 :: lighted ?== true PASSED
+
+
+******************Summary******************
+Passed:  1
+Failed:  0
+Total :  1
+

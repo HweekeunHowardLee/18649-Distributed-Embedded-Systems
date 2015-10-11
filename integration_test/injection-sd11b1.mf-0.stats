@@ -1,0 +1,25 @@
+;18649-Fall-2014
+;Group 4
+;Zhu Zhang (zhuzhang), Hua Liu (hual1), Howard Lee(hweekeul)
+
+Simulator Parameters:
+Command line = -head headfile -cf sd11b1.cf -mf sd11b1.mf -fs 5.0
+RandomSeed = 1416863698320
+CanNetworkBitTime = 0 ns
+Effective Can Bitrate = Infinity
+Run Time = null
+Real time rate = null
+Message File = sd11b1.mf
+Controller File = sd11b1.cf
+
+Assertion Results:
+@1.1s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@54bedef2 :: getValue ?== true PASSED
+@1.5s:  PASSED HallButtonControl[4][FRONT][UP]::checkState(STATE) ?== STATE_HALL_LIGHT_ON PASSED
+@2.2s:  PASSED LanternControl[UP]::checkState(STATE) ?== STATE_LANTERN_ON PASSED
+
+
+******************Summary******************
+Passed:  3
+Failed:  0
+Total :  3
+

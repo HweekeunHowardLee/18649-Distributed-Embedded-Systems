@@ -1,0 +1,11 @@
+; group #4
+; Zhu Zhang (zhuzhang), Hua Liu (hual1), Howard Lee (hweekeul)
+; Unit test for HallButtonControl
+; Hua Liu
+; Last modified 2014-10-09
+; sd11a1.cf
+
+
+CarButtonControl 4 FRONT 100.0ms TRUE
+LanternControl UP 100.0ms TRUE
+;Dispatcher 8 100ms TRUE

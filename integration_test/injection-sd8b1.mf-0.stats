@@ -1,0 +1,27 @@
+
+Simulator Parameters:
+Command line = -cf sd8b1.cf -mf sd8b1.mf -rt 1s
+RandomSeed = 1416864871119
+CanNetworkBitTime = 0 ns
+Effective Can Bitrate = Infinity
+Run Time = 1.0s
+Real time rate = null
+Message File = sd8b1.mf
+Controller File = sd8b1.cf
+
+Assertion Results:
+@0.21s:  PASSED DriveControl::checkState(STATE) ?== STATE_SLOW_UP PASSED
+@0.21s:  PASSED CarButtonControl[4][FRONT]::checkState(STATE) ?== STATE_CAR_LIGHT_ON PASSED
+@0.41s:  PASSED DriveControl::checkState(STATE) ?== STATE_LEVEL_UP PASSED
+@0.61s:  PASSED DriveControl::checkState(STATE) ?== STATE_STOP PASSED
+@0.61s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@d716361 :: getDirection ?== STOP PASSED
+@0.61s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@3764951d :: getSpeed ?== 0.0 PASSED
+@0.81s:  PASSED CarButtonControl[4][FRONT]::checkState(STATE) ?== STATE_CAR_LIGHT_OFF PASSED
+@0.9s:  PASSED simulator.payloads.CarLightPayload$ReadableCarLightPayload@3cd1a2f1 :: lighted ?== false PASSED
+
+
+******************Summary******************
+Passed:  8
+Failed:  0
+Total :  8
+

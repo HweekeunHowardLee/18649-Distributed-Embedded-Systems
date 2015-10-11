@@ -1,0 +1,28 @@
+;18649-Fall-2014
+;Group 4
+;Zhu Zhang (zhuzhang), Hua Liu (hual1), Howard Lee(hweekeul)
+
+Simulator Parameters:
+Command line = -cf sd4a1.cf -mf sd4a1.mf -head headfile -rt 1s
+RandomSeed = 1416848339395
+CanNetworkBitTime = 0 ns
+Effective Can Bitrate = Infinity
+Run Time = 1.0s
+Real time rate = null
+Message File = sd4a1.mf
+Controller File = sd4a1.cf
+
+Assertion Results:
+@0.83s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@5e2de80c :: lighted ?== true PASSED
+@0.83s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@266474c2 :: command ?== OPEN PASSED
+@1.25s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@5e481248 :: command ?== STOP PASSED
+@1.25s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@63947c6b :: getValue ?== true PASSED
+@1.25s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@355da254 :: lighted ?== true PASSED
+@1.25s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@d716361 :: getValue ?== true PASSED
+
+
+******************Summary******************
+Passed:  6
+Failed:  0
+Total :  6
+
